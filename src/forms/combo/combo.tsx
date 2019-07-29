@@ -9,7 +9,7 @@ function getRandomString (length = 10) {
 }
 
 @Component
-export default class CrmCombo extends Vue {
+export default class Combo extends Vue {
   @Prop({ type: Object, default: () => ({}) }) readonly model!: any // form 的数据模型
   @Prop({ type: String, required: true }) readonly prop!: string // 对应 el-form-item 的 prop 字段
   @Prop({ type: Array, default: () => [] }) readonly controls!: any[] // combo 配置
@@ -87,7 +87,7 @@ export default class CrmCombo extends Vue {
   }
 
   render () {
-    console.log('render')
+    console.log('render combo')
 
     this.formModelStructure = this.controls.reduce((acc: { [prop: string]: any }, curr) => {
       acc[curr.name] = null

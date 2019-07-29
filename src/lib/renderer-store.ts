@@ -1,3 +1,4 @@
+import { Component } from 'vue'
 import { RendererOptions } from '@/types'
 
 export default class RendererStore {
@@ -10,6 +11,7 @@ export default class RendererStore {
   }
 
   public register (options: RendererOptions) {
+    console.log('register', options.name, options.description)
     this.store[options.name] = options
   }
 
@@ -31,5 +33,12 @@ export default class RendererStore {
     }
 
     return renderer.component
+  }
+
+  public getAllComponents () {
+    return Object.entries(this.store).reduce((acc, [k, { component }]) => {
+      acc[k] = component
+      return acc
+    }, {} as { [propName: string]: Component })
   }
 }

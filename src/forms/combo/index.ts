@@ -1,7 +1,7 @@
-import Combo from './combo'
+import Combo from './combo-driver'
 
 export default {
-  name: 'combo',
+  name: 'vc-combo',
   description: '可增删组件',
   component: Combo
 }

@@ -1,25 +1,26 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Schema } from '@/types'
 import { rendererStore } from './renderers'
-import Combo from '@/forms/combo/combo'
-import { Input } from 'element-ui'
-import HelloWorld from '@/components/HelloWorld.vue'
 
-@Component
+console.log('components:', rendererStore.getAllComponents())
+
+@Component({
+  components: rendererStore.getAllComponents()
+})
 export default class ComponentRenderer extends Vue {
   @Prop({ type: Object, default: () => ({}) }) readonly options!: Schema
 
   render () {
-    const { type, name, controls } = this.options
-    // const Renderer = rendererStore.getRenderer(type)
+    console.log('renderer run')
+    const { type } = this.options
+
+    const Tag = type
+
+    console.log('*', Tag)
 
     return (
       <div>
-        {/* <Combo prop={name} controls={controls}></Combo> */}
-        {/* <Input></Input> */}
-        {/* <Combo prop="hello"></Combo> */}
-        {/* <HelloWorld></HelloWorld> */}
-        <h1>Hello</h1>
+        <Tag options={this.options} />
       </div>
     )
   }
