@@ -23,6 +23,7 @@ export interface FormProps extends BaseProps {
 }
 
 export interface Schema extends FormItemProps {
+  __parent__: Schema | null
 }
 
 export interface RendererOptions {

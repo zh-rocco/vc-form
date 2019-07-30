@@ -1,7 +1,22 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Schema, PlainObject } from '@/types'
+import { rendererStore } from './renderers'
 
-function getStyle(styleObject: PlainObject | undefined) {
+console.log('components:', rendererStore.getAllComponents())
+
+const isRenderFormComponent = (schema: Schema | null): boolean => {
+  while (schema) {
+    if (schema.type === 'vc-form') {
+      return true
+    }
+
+    schema = schema.__parent__
+  }
+
+  return false
+}
+
+const getStyle = (styleObject: PlainObject | undefined) => {
   if (typeof styleObject !== 'object') return
 
   return Object.entries(styleObject)
@@ -12,27 +27,53 @@ function getStyle(styleObject: PlainObject | undefined) {
     .join('; ')
 }
 
-@Component
+@Component({
+  components: rendererStore.getAllComponents()
+})
 export default class ComponentRenderer extends Vue {
   @Prop({ type: Object, default: () => ({}) }) readonly schema!: Schema
 
-  private formModel: PlainObject = {
-    type: []
-  }
-
   renderChild(schema: Schema) {
-    const { _name, _style, component, options = {}, children } = schema
-    const Tag = component
+    const { type, controls, __parent__, style } = schema
+    const Tag = type
+    let children!: () => JSX.Element[] | null
+
+    if (!__parent__) {
+      schema.__parent__ = null
+    }
 
     console.log('# renderChild', Tag)
 
-    const _children = () => Array.isArray(children) ? this.renderChildren(children) : null
-
-    if (_name) {
-      return <Tag vModel={this.formModel[_name]} {...{ props: options, attrs: { style: getStyle(_style) } }}>{_children()}</Tag>
+    if (Array.isArray(controls)) {
+      controls.forEach(control => {
+        control.__parent__ = schema
+      })
+      children = () => this.renderChildren(controls)
     } else {
-      return <Tag {...{ props: { ...options, model: this.formModel }, attrs: { style: getStyle(_style) } }}>{_children()}</Tag>
+      children = () => null
     }
+
+    if (isRenderFormComponent(__parent__)) {
+      return (
+        <el-form-item label={schema.label} prop={schema.name} rules={schema.rules}>
+          <Tag
+            options={schema}
+            {...{ attrs: { style: getStyle(style) } }}
+          >
+            {children()}
+          </Tag>
+        </el-form-item>
+      )
+    }
+
+    return (
+      <Tag
+        options={schema}
+        {...{ attrs: { style: getStyle(style) } }}
+      >
+        {children()}
+      </Tag>
+    )
   }
 
   renderChildren(schemas: Schema[]) {
@@ -41,6 +82,9 @@ export default class ComponentRenderer extends Vue {
   }
 
   render() {
+    console.log('renderer run')
+    console.log('*', 'Tag', this.schema.type)
+
     return this.renderChild(this.schema)
   }
 }

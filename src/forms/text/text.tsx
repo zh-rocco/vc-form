@@ -7,8 +7,7 @@ export default class VcText extends Vue {
   @Prop({ type: Object, default: () => ({}) }) readonly options!: any
 
   private get prop () {
-    const { name } = this.options
-    return name
+    return this.options.name
   }
 
   private get localValue () {
@@ -28,5 +27,11 @@ export default class VcText extends Vue {
         placeholder={placeholder}
         clearable={clearable} />
     )
+  }
+
+  created() {
+    if (!this.formModel[this.prop]) {
+      this.$set(this.formModel, this.prop, null)
+    }
   }
 }

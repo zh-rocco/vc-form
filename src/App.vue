@@ -1,18 +1,21 @@
 <template>
   <div id="app">
-    <ComponentRenderer :schema="options2" />
+    <ComponentRenderer :schema="options" />
+    <ComponentRendererB :schema="options2" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import ComponentRenderer from '@/lib/component-renderer' // @ is an alias to /src
+import ComponentRendererB from '@/lib/component-renderer-b' // @ is an alias to /src
 import Combo from '@/forms/combo/combo'
 import VcText from '@/forms/text/text'
 
 @Component({
   components: {
     ComponentRenderer,
+    ComponentRendererB,
     Combo,
     VcText
   }
@@ -21,29 +24,36 @@ export default class App extends Vue {
   private options = {
     name: 'type',
     type: 'vc-form',
-    inline: true,
+    style: {
+      width: '460px'
+    },
     controls: [
       {
         name: 'name',
-        label: '客户姓名',
+        label: '活动名称',
         type: 'vc-text',
-        placeholder: '请输入客户的姓名',
+        placeholder: '请输入活动名称',
+        clearable: true,
         rules: [
-          { required: true, message: '请输入客户的姓名', trigger: 'blur' }
+          { required: true, message: '请输入活动名称', trigger: 'change' }
         ]
       },
       {
-        name: 'telephone',
-        label: '移动电话',
-        type: 'vc-text',
-        placeholder: '请输入客户的移动电话',
+        name: 'region',
+        label: '活动区域',
+        type: 'vc-select',
+        placeholder: '请输选择活动区域',
+        clearable: true,
+        options: [
+          { name: '区域一', value: 'shanghai' },
+          { name: '区域二', value: 'beijing' }
+        ],
         rules: [
-          { required: true, message: '请输入客户的移动电话', trigger: 'blur' },
-          { pattern: /^1[3-9]\d{9}$/, message: '请输入合法的移动电话', trigger: 'blur' }
+          { required: true, message: '请输选择活动区域', trigger: 'change' }
         ]
       }
     ]
-  }
+  };
 
   private options2 = {
     component: 'el-form',
@@ -278,9 +288,12 @@ export default class App extends Vue {
         ]
       }
     ]
-  }
+  };
 }
 </script>
 
 <style lang="less">
+body {
+  user-select: none;
+}
 </style>

@@ -6,14 +6,10 @@ export default class VcForm extends Vue {
   @Prop({ type: Object, default: () => ({}) }) readonly options!: any
 
   @Provide('formModel')
-  private model: PlainObject = {
-    name: null,
-    telephone: null
-  }
+  private model: PlainObject = {}
 
   render () {
     console.log('render form')
-    const { placeholder, clearable } = this.options
 
     return (
       <el-form
