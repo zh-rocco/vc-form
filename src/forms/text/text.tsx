@@ -1,24 +1,25 @@
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Inject, Vue } from 'vue-property-decorator'
 
 @Component
 export default class VcText extends Vue {
-  @Prop({ type: Object, default: () => ({}) }) readonly model!: any // form 的数据模型
+  @Inject({ default () { return {} } }) readonly formModel!: any
+
   @Prop({ type: Object, default: () => ({}) }) readonly options!: any
 
   private get prop () {
     const { name } = this.options
-    return this.model[name]
+    return name
   }
 
   private get localValue () {
-    return this.model[this.prop]
+    return this.formModel[this.prop]
   }
   private set localValue (value: any[]) {
-    this.model[this.prop] = value
+    this.formModel[this.prop] = value
   }
 
   render () {
-    console.log('render text')
+    console.log('render text:', this.options.name)
     const { placeholder, clearable } = this.options
 
     return (

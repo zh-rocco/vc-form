@@ -1,11 +1,11 @@
 import RendererStore from './renderer-store'
-// import Combo from '@/forms/combo'
+import Form from '@/forms/form'
 import Text from '@/forms/text'
 import Select from '@/forms/select'
 
 const rendererStore = new RendererStore()
 
-// rendererStore.register(Combo)
+rendererStore.register(Form)
 rendererStore.register(Text)
 rendererStore.register(Select)
 

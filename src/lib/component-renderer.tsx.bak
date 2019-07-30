@@ -1,0 +1,45 @@
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Schema } from '@/types'
+import { rendererStore } from './renderers'
+
+console.log('components:', rendererStore.getAllComponents())
+
+@Component({
+  components: rendererStore.getAllComponents()
+})
+export default class ComponentRenderer extends Vue {
+  @Prop({ type: Object, default: () => ({}) }) readonly options!: Schema
+
+  renderChild (control: Schema) {
+    const { type, controls } = control
+    const Tag = type
+
+    console.log('# renderChild', Tag)
+
+    const children = () => Array.isArray(controls) ? this.renderChildren(controls) : []
+
+    if (Tag === 'vc-form') {
+      return (
+        <Tag options={control}>{...children()}</Tag>
+      )
+    } else {
+      return (
+        <el-form-item label={control.label} prop={control.name} rules={control.rules}>
+          <Tag options={control}>{children()}</Tag>
+        </el-form-item>
+      )
+    }
+  }
+
+  renderChildren (controls: Schema[]) {
+    console.log('# renderChildren')
+    return controls.map(control => this.renderChild(control))
+  }
+
+  render () {
+    console.log('renderer run')
+    console.log('*', 'Tag', this.options.type)
+
+    return this.renderChild(this.options)
+  }
+}
