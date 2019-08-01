@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <ComponentRenderer :schema="options" />
-    <ComponentRendererB :schema="options2" />
+    <!-- <ComponentRendererB :schema="options2" /> -->
   </div>
 </template>
 
@@ -9,15 +9,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import ComponentRenderer from '@/lib/component-renderer' // @ is an alias to /src
 import ComponentRendererB from '@/lib/component-renderer-b' // @ is an alias to /src
-import Combo from '@/forms/combo/combo'
-import VcText from '@/forms/text/text'
 
 @Component({
   components: {
     ComponentRenderer,
-    ComponentRendererB,
-    Combo,
-    VcText
+    ComponentRendererB
   }
 })
 export default class App extends Vue {
@@ -50,6 +46,25 @@ export default class App extends Vue {
         ],
         rules: [
           { required: true, message: '请输选择活动区域', trigger: 'change' }
+        ]
+      },
+      {
+        type: 'div',
+        label: '活动时间',
+        controls: [
+          {
+            name: 'date',
+            type: 'vc-date',
+            clearable: true
+          },
+          {
+            type: 'span'
+          },
+          {
+            name: 'time',
+            type: 'vc-time',
+            clearable: true
+          }
         ]
       }
     ]

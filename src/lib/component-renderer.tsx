@@ -4,13 +4,20 @@ import { rendererStore } from './renderers'
 
 console.log('components:', rendererStore.getAllComponents())
 
-const isRenderFormComponent = (schema: Schema | null): boolean => {
-  while (schema) {
-    if (schema.type === 'vc-form') {
-      return true
-    }
+const FORM_ITEMS = ['vc-text', 'vc-select', 'vc-date', 'vc-time', 'div']
 
-    schema = schema.__parent__
+const isRenderFormComponent = (schema: Schema): boolean => {
+  console.log('isRenderFormComponent')
+  if (FORM_ITEMS.includes(schema.type)) {
+    let _parent = schema.__parent__
+
+    while (_parent) {
+      if (_parent.type === 'vc-form') {
+        return true
+      }
+
+      _parent = _parent.__parent__
+    }
   }
 
   return false
@@ -53,7 +60,7 @@ export default class ComponentRenderer extends Vue {
       children = () => null
     }
 
-    if (isRenderFormComponent(__parent__)) {
+    if (isRenderFormComponent(schema)) {
       return (
         <el-form-item label={schema.label} prop={schema.name} rules={schema.rules}>
           <Tag
@@ -82,7 +89,6 @@ export default class ComponentRenderer extends Vue {
   }
 
   render() {
-    console.log('renderer run')
     console.log('*', 'Tag', this.schema.type)
 
     return this.renderChild(this.schema)
