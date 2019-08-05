@@ -1,45 +1,30 @@
 <template>
   <div id="app">
-    <!-- <ComponentRenderer :schema="options" /> -->
-    <!-- <ComponentRendererB :schema="options2" /> -->
-    <!-- <ComponentRendererC :schema="options" /> -->
-    <Container>
-      <ComponentRenderer :schema="options" />
-    </Container>
-
-    <WrappedTextInput v-model="wrapped" :options="{ placeholder: 'Hello World', clearable: true }" />
+    <FormRenderer :options="options" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import ComponentRenderer from '@/lib/component-renderer' // @ is an alias to /src
-import ComponentRendererB from '@/lib/component-renderer-b' // @ is an alias to /src
-import ComponentRendererC from '@/lib/component-renderer-c' // @ is an alias to /src
-import Container from '@/lib/container' // @ is an alias to /src
-import hoc from '@/lib/hoc' // @ is an alias to /src
-import TextInput from '@/element/text/text'
-
-const WrappedTextInput = hoc(TextInput)
+import FormRenderer from '@/element/form'
 
 @Component({
   components: {
-    ComponentRenderer,
-    ComponentRendererB,
-    ComponentRendererC,
-    Container,
-    WrappedTextInput
+    FormRenderer
   }
 })
 export default class App extends Vue {
   private wrapped: string | null = null
+  private selected: boolean = false
 
   private options = {
     name: 'type',
     type: 'vc-form',
     style: {
-      width: '460px'
+      width: '460px',
+      'user-select': 'none'
     },
+    size: 'mini',
     controls: [
       {
         name: 'name',
@@ -75,14 +60,21 @@ export default class App extends Vue {
             clearable: true
           },
           {
-            type: 'span'
-          },
-          {
             name: 'time',
             type: 'vc-time',
             clearable: true
           }
         ]
+      },
+      {
+        name: 'rate',
+        label: '评分',
+        type: 'vc-rate'
+      },
+      {
+        name: 'switch',
+        label: '开关',
+        type: 'vc-switch'
       }
     ]
   };
@@ -326,6 +318,7 @@ export default class App extends Vue {
 
 <style lang="less">
 body {
+  margin: 8px;
   user-select: none;
 }
 </style>

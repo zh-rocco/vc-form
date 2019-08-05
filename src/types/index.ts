@@ -27,7 +27,7 @@ export interface Schema extends FormItemProps {
 }
 
 export interface RendererOptions {
-  name: string,
-  description?: string,
-  component: any
+  name: string
+  description?: string
+  component: Component
 }

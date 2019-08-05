@@ -1,7 +1,17 @@
+import { VNode, VueConstructor } from 'vue'
 import { Component, Provide, Vue } from 'vue-property-decorator'
 import { PlainObject } from '@/types'
-import { VNode } from 'vue/types/vnode'
-import { VueConstructor } from 'vue/types/vue'
+
+const collectSlots = (slots: {
+  [key: string]: VNode[] | undefined;
+}, context: Vue) => {
+  return Object.keys(slots)
+    .reduce((arr, key) => arr.concat(slots[key] || []), [] as VNode[])
+    .map(vnode => {
+      vnode.context = context
+      return vnode
+    })
+}
 
 export default function hoc(WrappedComponent: VueConstructor) {
   @Component
@@ -10,12 +20,7 @@ export default function hoc(WrappedComponent: VueConstructor) {
     private model: PlainObject = {}
 
     render() {
-      const slots = Object.keys(this.$slots)
-        .reduce((arr, key) => arr.concat(this.$slots[key] || []), [] as VNode[])
-        .map(vnode => {
-          vnode.context = this
-          return vnode
-        })
+      const slots = collectSlots(this.$slots, this)
 
       return (
         <WrappedComponent

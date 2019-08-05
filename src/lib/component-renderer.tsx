@@ -4,7 +4,7 @@ import { rendererStore } from './renderers'
 
 console.log('components:', rendererStore.getAllComponents())
 
-const FORM_ITEMS = ['vc-text', 'vc-select', 'vc-date', 'vc-time', 'div']
+const FORM_ITEMS = ['vc-text', 'vc-select', 'vc-date', 'vc-time', 'vc-rate', 'vc-switch', 'div']
 
 const isRenderFormComponent = (schema: Schema): boolean => {
   console.log('isRenderFormComponent')

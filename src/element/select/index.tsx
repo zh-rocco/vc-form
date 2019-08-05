@@ -1,11 +1,12 @@
 import { Component } from 'vue-property-decorator'
-import FormMixin from '../mixin'
+import ConnectMixin from '../connect'
 import SelectDriver from '@/components/SelectDriver.vue'
+import { RendererOptions } from '@/types'
 
 @Component({
   components: { SelectDriver }
 })
-export default class VcSelect extends FormMixin {
+class VcSelect extends ConnectMixin {
   render() {
     console.log('render select')
     const { placeholder, clearable, options = [] } = this.options
@@ -19,3 +20,11 @@ export default class VcSelect extends FormMixin {
     )
   }
 }
+
+const options: RendererOptions = {
+  name: 'vc-select',
+  description: '下拉选择器',
+  component: VcSelect
+}
+
+export default options

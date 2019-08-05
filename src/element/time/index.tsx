@@ -1,8 +1,9 @@
 import { Component } from 'vue-property-decorator'
-import FormMixin from '../mixin'
+import ConnectMixin from '../connect'
+import { RendererOptions } from '@/types'
 
 @Component
-export default class VcTime extends FormMixin {
+class VcTime extends ConnectMixin {
   render() {
     console.log('render time:', this.options.name)
     const { placeholder, clearable } = this.options
@@ -15,3 +16,11 @@ export default class VcTime extends FormMixin {
     )
   }
 }
+
+const options: RendererOptions = {
+  name: 'vc-time',
+  description: '时间',
+  component: VcTime
+}
+
+export default options

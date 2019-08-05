@@ -1,7 +1,7 @@
 import { Component, Prop, Inject, Vue } from 'vue-property-decorator'
 
 @Component
-export default class ConnectMixin extends Vue {
+export default class Wrapper extends Vue {
   @Inject({ default() { return {} } }) readonly formModel!: any
 
   @Prop({ default: null }) readonly value!: any
@@ -19,5 +19,22 @@ export default class ConnectMixin extends Vue {
     if (this.prop) {
       this.formModel[this.prop] = value
     }
+  }
+
+  render() {
+    return (
+      <div
+        {
+        ...{
+          props: this.$props,
+          attrs: this.$attrs,
+          on: this.$listeners,
+          scopedSlots: this.$scopedSlots
+        }
+        }
+      >
+        {this.$slots.default}
+      </div>
+    )
   }
 }

@@ -1,8 +1,9 @@
 import { Component } from 'vue-property-decorator'
-import FormMixin from '../mixin'
+import ConnectMixin from '../connect'
+import { RendererOptions } from '@/types'
 
 @Component
-export default class VcText extends FormMixin {
+class VcText extends ConnectMixin {
   render() {
     console.log('render text:', this.options.name)
     const { placeholder, clearable } = this.options
@@ -11,7 +12,16 @@ export default class VcText extends FormMixin {
       <el-input
         vModel={this.localValue}
         placeholder={placeholder}
-        clearable={clearable} />
+        clearable={clearable}
+      />
     )
   }
 }
+
+const options: RendererOptions = {
+  name: 'vc-text',
+  description: '文本框',
+  component: VcText
+}
+
+export default options

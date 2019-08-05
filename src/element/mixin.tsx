@@ -1,7 +1,7 @@
 import { Component, Prop, Inject, Vue } from 'vue-property-decorator'
 
 @Component
-export default class FormMixin extends Vue {
+export default class ConnectMixin extends Vue {
   @Inject({ default() { return {} } }) readonly formModel!: any
 
   @Prop({ default: null }) readonly value!: any
@@ -18,12 +18,6 @@ export default class FormMixin extends Vue {
     this.$emit('input', value)
     if (this.prop) {
       this.formModel[this.prop] = value
-    }
-  }
-
-  created() {
-    if (this.prop && !this.formModel[this.prop]) {
-      this.$set(this.formModel, this.prop, null)
     }
   }
 }

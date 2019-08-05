@@ -1,10 +1,11 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import Combo from './combo'
+import { RendererOptions } from '@/types'
 
 @Component({
   components: { Combo }
 })
-export default class ComboDriver extends Vue {
+class ComboDriver extends Vue {
   @Prop({ type: Object, default: () => ({}) }) readonly model!: any // form 的数据模型
   @Prop({ type: Object, default: () => ({}) }) readonly options!: any
 
@@ -29,3 +30,11 @@ export default class ComboDriver extends Vue {
     )
   }
 }
+
+const options: RendererOptions = {
+  name: 'vc-combo',
+  description: '可增删组件',
+  component: ComboDriver
+}
+
+export default options
