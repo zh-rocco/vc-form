@@ -1,7 +1,13 @@
 <template>
   <div id="app">
-    <ComponentRenderer :schema="options" />
+    <!-- <ComponentRenderer :schema="options" /> -->
     <!-- <ComponentRendererB :schema="options2" /> -->
+    <!-- <ComponentRendererC :schema="options" /> -->
+    <Container>
+      <ComponentRenderer :schema="options" />
+    </Container>
+
+    <WrappedTextInput v-model="wrapped" :options="{ placeholder: 'Hello World', clearable: true }" />
   </div>
 </template>
 
@@ -9,14 +15,25 @@
 import { Component, Vue } from 'vue-property-decorator'
 import ComponentRenderer from '@/lib/component-renderer' // @ is an alias to /src
 import ComponentRendererB from '@/lib/component-renderer-b' // @ is an alias to /src
+import ComponentRendererC from '@/lib/component-renderer-c' // @ is an alias to /src
+import Container from '@/lib/container' // @ is an alias to /src
+import hoc from '@/lib/hoc' // @ is an alias to /src
+import TextInput from '@/element/text/text'
+
+const WrappedTextInput = hoc(TextInput)
 
 @Component({
   components: {
     ComponentRenderer,
-    ComponentRendererB
+    ComponentRendererB,
+    ComponentRendererC,
+    Container,
+    WrappedTextInput
   }
 })
 export default class App extends Vue {
+  private wrapped: string | null = null
+
   private options = {
     name: 'type',
     type: 'vc-form',
