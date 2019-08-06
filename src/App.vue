@@ -76,6 +76,20 @@ export default class App extends Vue {
         label: '开关',
         type: 'vc-switch'
       }
+    ],
+    actions: [
+      {
+        type: 'submit',
+        label: '立即创建'
+      },
+      {
+        type: 'reset',
+        label: '重置'
+      },
+      {
+        type: 'back',
+        label: '返回'
+      }
     ]
   };
 

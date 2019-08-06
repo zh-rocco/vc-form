@@ -20,7 +20,8 @@ class VcSwitch extends ConnectMixin {
 const options: RendererOptions = {
   name: 'vc-switch',
   description: '开关',
-  component: VcSwitch
+  component: VcSwitch,
+  value: false
 }
 
 export default options

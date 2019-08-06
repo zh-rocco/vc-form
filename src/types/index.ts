@@ -1,7 +1,13 @@
-import { Component } from 'vue'
+import Vue from 'vue'
 
 export interface PlainObject {
   [propsName: string]: any
+}
+
+export type FormActionType = 'submit' | 'reset' | 'back'
+
+export interface FormAction extends PlainObject {
+  type: FormActionType
 }
 
 export interface BaseProps extends PlainObject {
@@ -9,6 +15,7 @@ export interface BaseProps extends PlainObject {
   name: string
   value?: any
   controls?: Schema[]
+  actions?: FormAction[]
   visible?: boolean
   disabled?: boolean
 }
@@ -26,8 +33,15 @@ export interface Schema extends FormItemProps {
   __parent__: Schema | null
 }
 
-export interface RendererOptions {
+/** Renderer Component */
+export declare class RendererComponent extends Vue {
+  [propsName: string]: any
+}
+
+/** Renderer Options */
+export interface RendererOptions extends PlainObject {
   name: string
   description?: string
-  component: Component
+  component: any
+  value?: any
 }

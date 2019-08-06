@@ -1,24 +1,15 @@
 import { Component, Prop, Provide, Vue } from 'vue-property-decorator'
 import { rendererStore } from '@/lib/renderers'
-import { walk } from '../utils'
-import { PlainObject, Schema } from '@/types'
+import { walk, getStyle } from '../utils'
+import { PlainObject, Schema, FormAction } from '@/types'
 
-console.log(rendererStore)
+import { Button } from 'element-ui'
 
-const getStyle = (styleObject: PlainObject | undefined) => {
-  if (typeof styleObject !== 'object') return
+console.log(Button)
 
-  return Object.entries(styleObject)
-    .reduce((styleArray, [k, v]) => {
-      styleArray.push(`${k}: ${v}`)
-      return styleArray
-    }, [] as string[])
-    .join('; ')
-}
+console.log(rendererStore.getAllComponents())
 
-@Component({
-  components: rendererStore.getAllComponents()
-})
+@Component
 class FormRenderer extends Vue {
   @Prop({ type: Object, default: () => ({}) }) readonly options!: any
 
@@ -28,16 +19,16 @@ class FormRenderer extends Vue {
   private genFormModel(schema: Schema) {
     const { model, $set } = this
 
-    walk(schema, ({ name }) => {
-      if (name) {
-        $set(model, name, null)
+    walk(schema, ({ type, name }) => {
+      if (type !== 'vc-form' && name) {
+        $set(model, name, rendererStore.getDefaultValue(type))
       }
     })
   }
 
-  renderChild(schema: Schema) {
+  private renderFormItem(schema: Schema) {
     const { type, label, name, rules, controls, style } = schema
-    const Tag = type
+    const Tag = rendererStore.getRenderer(type) || type
 
     return (
       <el-form-item label={label} prop={name} rules={rules}>
@@ -45,14 +36,34 @@ class FormRenderer extends Vue {
           options={schema}
           {...{ attrs: { style: getStyle(style) } }}
         >
-          { Array.isArray(controls) ? this.renderChildren(controls) : null }
+          {Array.isArray(controls) ? this.renderFormItems(controls) : null}
         </Tag>
       </el-form-item>
     )
   }
 
-  renderChildren(schemas: Schema[]) {
-    return schemas.map(schema => this.renderChild(schema))
+  private renderFormItems(schemas: Schema[] = []) {
+    return schemas.map(schema => this.renderFormItem(schema))
+  }
+
+  private renderFormAction(action: FormAction) {
+    const { type, label, style } = action
+
+    return (
+      <Button
+        {...{ attrs: { style: getStyle(style) } }}
+      >
+        {label}
+      </Button>
+    )
+  }
+
+  private renderFormActions(actions: FormAction[] = []) {
+    return (
+      <el-form-item>
+        {actions.map(action => this.renderFormAction(action))}
+      </el-form-item>
+    )
   }
 
   render() {
@@ -66,7 +77,8 @@ class FormRenderer extends Vue {
         label-width="120px"
         label-position="right"
         {...{ attrs: { ...this.options, style: getStyle(this.options.style) } }} >
-        {this.renderChildren(this.options.controls)}
+        {this.renderFormItems(this.options.controls)}
+        {this.renderFormActions(this.options.actions)}
       </el-form>
     )
   }

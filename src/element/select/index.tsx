@@ -8,7 +8,7 @@ import { RendererOptions } from '@/types'
 })
 class VcSelect extends ConnectMixin {
   render() {
-    console.log('render select')
+    console.log('render select:', this.options.name)
     const { placeholder, clearable, options = [] } = this.options
 
     return (

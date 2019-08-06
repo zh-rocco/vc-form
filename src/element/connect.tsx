@@ -3,6 +3,7 @@ import { Component, Prop, Inject, Vue } from 'vue-property-decorator'
 @Component
 export default class ConnectMixin extends Vue {
   @Inject({ default() { return {} } }) readonly formModel!: any
+  @Inject({ default() { return null } }) readonly formRef!: any
 
   @Prop({ default: null }) readonly value!: any
   @Prop({ type: Object, default: () => ({}) }) readonly options!: any
