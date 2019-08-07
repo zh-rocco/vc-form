@@ -6,6 +6,8 @@ import VcDate from '@/element/date'
 import Time from '@/element/time'
 import Rate from '@/element/rate'
 import Switch from '@/element/switch'
+import ColumnLayout from '@/element/layout/column'
+import InlineLayout from '@/element/layout/inline'
 
 export default {
   // Form,
@@ -15,5 +17,7 @@ export default {
   VcDate,
   Time,
   Rate,
-  Switch
+  Switch,
+  ColumnLayout,
+  InlineLayout
 }

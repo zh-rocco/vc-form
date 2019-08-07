@@ -2,7 +2,7 @@ import { cloneDeep, pickBy } from 'lodash'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 // 生成随机字符串 (length <= 10)
-function getRandomString (length = 10) {
+function getRandomString(length = 10) {
   return Math.random()
     .toString(36)
     .substr(2, Math.min(length, 10))
@@ -21,33 +21,32 @@ export default class Combo extends Vue {
   private comboKeys: string[] = []
 
   // combo 组件的数据模型
-  private get localValue () {
+  private get localValue() {
     const value = this.model[this.prop]
     return Array.isArray(value) ? value : []
   }
-  private set localValue (value: any[]) {
+  private set localValue(value: any[]) {
     this.model[this.prop] = value
   }
 
   // 添加 combo-item
-  private add () {
+  private add() {
     if (this.comboKeys.length >= this.max) return
 
-    this.localValue = [...this.localValue, cloneDeep(this.formModelStructure)]
+    this.localValue.push(cloneDeep(this.formModelStructure))
     this.comboKeys.push(getRandomString())
   }
 
   // 删除 combo-item
-  private remove (index: number) {
+  private remove(index: number) {
     if (!this.localValue[index]) return
-    const value = this.localValue.slice()
-    value.splice(index, 1)
-    this.localValue = value
+
+    this.localValue.splice(index, 1)
     this.comboKeys.splice(index, 1)
   }
 
   // 生成 combo-item
-  private createComboItem (index = 0) {
+  private createComboItem(index = 0) {
     const builtIn = ['name', 'label', 'type'] // 需要特殊处理的字段
     const { prop: propName, localValue } = this
     const valueObject = localValue[index]
@@ -69,7 +68,7 @@ export default class Combo extends Vue {
   }
 
   // 生成 combo
-  private createCombo () {
+  private createCombo() {
     return this.localValue.map((item, index) => {
       return (
         <div class="crm-combo-item" key={this.comboKeys[index]}>
@@ -79,33 +78,42 @@ export default class Combo extends Vue {
             <el-button
               type="text"
               disabled={this.localValue.length <= this.min}
-              onClick={() => this.remove(index)} >删除</el-button>
+              onClick={() => this.remove(index)}
+            >
+              删除
+            </el-button>
           </el-form-item>
         </div>
       )
     })
   }
 
-  render () {
-    console.log('render combo')
-
-    this.formModelStructure = this.controls.reduce((acc: { [prop: string]: any }, curr) => {
+  private getComboStructure() {
+    return this.controls.reduce((acc: { [prop: string]: any }, curr) => {
       acc[curr.name] = null
       return acc
     }, {})
+  }
+
+  private initDefaultValue() {
+    let i = this.min
+    while (i) {
+      this.add()
+      i--
+    }
+  }
+
+  render() {
+    console.log('render combo', JSON.stringify(this.localValue))
+
+    this.formModelStructure = this.getComboStructure()
 
     if (!this.localValue.length) {
-      let i = this.min
-      while (i) {
-        this.add()
-        i--
-      }
-      return
+      return this.initDefaultValue()
     }
 
     const combo = this.createCombo()
 
-    // console.log('render', JSON.stringify(this.localValue))
     const className = this.inline ? 'crm-combo crm-combo--inline' : 'crm-combo'
 
     return (

@@ -45,3 +45,9 @@ export interface RendererOptions extends PlainObject {
   component: any
   value?: any
 }
+
+/** Directive Options */
+export interface DirectiveOptions extends PlainObject {
+  name: string
+  description?: string
+}

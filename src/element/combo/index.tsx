@@ -1,32 +1,25 @@
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 import Combo from './combo'
 import { RendererOptions } from '@/types'
+import ConnectMixin from '../connect'
 
 @Component({
   components: { Combo }
 })
-class ComboDriver extends Vue {
+class VcCombo extends ConnectMixin {
   @Prop({ type: Object, default: () => ({}) }) readonly model!: any // form 的数据模型
   @Prop({ type: Object, default: () => ({}) }) readonly options!: any
 
-  private get prop () {
-    const { name } = this.options
-    return this.model[name]
-  }
-
-  // combo 组件的数据模型
-  private get localValue () {
-    return this.model[this.prop]
-  }
-  private set localValue (value: any[]) {
-    this.model[this.prop] = value
-  }
-
-  render () {
-    console.log('render text')
+  render() {
+    console.log('render combo driver:', this.options.name)
 
     return (
-      <combo prop={this.prop || ''} {...{ attrs: this.options }}/>
+      <combo
+        prop={this.prop || ''}
+        props={{ model: this.formModel }}
+        attrs={this.options}
+        class="inline"
+      />
     )
   }
 }
@@ -34,7 +27,8 @@ class ComboDriver extends Vue {
 const options: RendererOptions = {
   name: 'vc-combo',
   description: '可增删组件',
-  component: ComboDriver
+  component: VcCombo,
+  value: () => []
 }
 
 export default options

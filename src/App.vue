@@ -21,7 +21,7 @@ export default class App extends Vue {
     name: 'type',
     type: 'vc-form',
     style: {
-      width: '460px',
+      width: '600px',
       'user-select': 'none'
     },
     size: 'mini',
@@ -51,7 +51,7 @@ export default class App extends Vue {
         ]
       },
       {
-        type: 'div',
+        type: 'inline-layout',
         label: '活动时间',
         controls: [
           {
@@ -75,6 +75,33 @@ export default class App extends Vue {
         name: 'switch',
         label: '开关',
         type: 'vc-switch'
+      },
+      {
+        name: 'combo',
+        label: '组合',
+        type: 'vc-combo',
+        max: 5,
+        controls: [
+          {
+            name: 'name',
+            // label: '客户姓名',
+            type: 'vc-text',
+            placeholder: '请输入客户的姓名',
+            rules: [
+              { required: true, message: '请输入客户的姓名', trigger: 'blur' }
+            ]
+          },
+          {
+            name: 'telephone',
+            // label: '移动电话',
+            type: 'vc-text',
+            placeholder: '请输入客户的移动电话',
+            rules: [
+              { required: true, message: '请输入客户的移动电话', trigger: 'blur' },
+              { pattern: /^1[3-9]\d{9}$/, message: '请输入合法的移动电话', trigger: 'blur' }
+            ]
+          }
+        ]
       }
     ],
     actions: [
@@ -334,5 +361,22 @@ export default class App extends Vue {
 body {
   margin: 8px;
   user-select: none;
+}
+
+.form-renderer {
+  .el-form-item.nested {
+    margin-bottom: 0;
+  }
+
+  .el-input {
+    width: auto;
+  }
+
+  .el-form-item__content > .inline {
+    .el-form-item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+  }
 }
 </style>

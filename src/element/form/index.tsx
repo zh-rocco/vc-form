@@ -11,12 +11,16 @@ console.log(rendererStore.getAllComponents())
 
 @Component
 class FormRenderer extends Vue {
+  $refs!: {
+    form: HTMLFormElement
+  }
+
   @Prop({ type: Object, default: () => ({}) }) readonly options!: any
 
-  @Provide('formModel')
-  private model: PlainObject = {}
+  @Provide('formModel') readonly model: PlainObject = {}
+  @Provide() readonly formIns = this
 
-  private genFormModel(schema: Schema) {
+  public genFormModel(schema: Schema) {
     const { model, $set } = this
 
     walk(schema, ({ type, name }) => {
@@ -26,39 +30,47 @@ class FormRenderer extends Vue {
     })
   }
 
-  private renderFormItem(schema: Schema) {
+  public renderFormItem(schema: Schema) {
     const { type, label, name, rules, controls, style } = schema
     const Tag = rendererStore.getRenderer(type) || type
+    const hasChildren = Array.isArray(controls) && controls.length
 
     return (
-      <el-form-item label={label} prop={name} rules={rules}>
+      <el-form-item
+        label={label}
+        prop={name}
+        rules={rules}
+        class={hasChildren ? 'nested' : undefined}
+      >
         <Tag
           options={schema}
           {...{ attrs: { style: getStyle(style) } }}
         >
-          {Array.isArray(controls) ? this.renderFormItems(controls) : null}
+          {hasChildren ? this.renderFormItems(controls) : null}
         </Tag>
       </el-form-item>
     )
   }
 
-  private renderFormItems(schemas: Schema[] = []) {
+  public renderFormItems(schemas: Schema[] = []) {
     return schemas.map(schema => this.renderFormItem(schema))
   }
 
-  private renderFormAction(action: FormAction) {
+  public renderFormAction(action: FormAction) {
     const { type, label, style } = action
+    const Tag = rendererStore.getActionRenderer(type) || Button
 
     return (
-      <Button
+      <Tag
+        options={action}
         {...{ attrs: { style: getStyle(style) } }}
       >
         {label}
-      </Button>
+      </Tag>
     )
   }
 
-  private renderFormActions(actions: FormAction[] = []) {
+  public renderFormActions(actions: FormAction[] = []) {
     return (
       <el-form-item>
         {actions.map(action => this.renderFormAction(action))}
@@ -66,24 +78,48 @@ class FormRenderer extends Vue {
     )
   }
 
-  render() {
+  public validateForm() {
+    return new Promise((resolve, reject) => {
+      if (!this.$refs.form) return
+      this.$refs.form.validate((valid: boolean | object) => {
+        if (valid) {
+          resolve(true)
+        } else {
+          reject(new Error('Validate Error.'))
+        }
+        this.$emit('validate', valid)
+      })
+    })
+  }
+
+  public resetFields() {
+    // TODO: 修复重置时 combo 组件报错的 BUG
+    try {
+      this.$refs.form.resetFields()
+    } catch { }
+    this.$emit('reset')
+  }
+
+  public render() {
     console.log('render form')
 
     return (
       <el-form
         ref="form"
-        props={{ model: this.model }}
+        class="form-renderer"
         label-suffix=":"
         label-width="120px"
         label-position="right"
-        {...{ attrs: { ...this.options, style: getStyle(this.options.style) } }} >
+        props={{ model: this.model }}
+        attrs={{ ...this.options, style: getStyle(this.options.style) }}
+      >
         {this.renderFormItems(this.options.controls)}
         {this.renderFormActions(this.options.actions)}
       </el-form>
     )
   }
 
-  created() {
+  public created() {
     this.genFormModel(this.options)
   }
 }

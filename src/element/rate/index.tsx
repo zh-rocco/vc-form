@@ -14,6 +14,11 @@ class Rate extends ConnectMixin {
       />
     )
   }
+
+  // mounted() {
+  //   console.log(this.formModel)
+  //   console.log(this.formIns)
+  // }
 }
 
 const options: RendererOptions = {

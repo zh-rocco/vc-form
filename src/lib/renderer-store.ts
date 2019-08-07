@@ -1,4 +1,5 @@
 import { Component } from 'vue'
+import { isFunction } from 'lodash'
 import { RendererOptions, RendererComponent } from '@/types'
 
 export default class RendererStore {
@@ -6,8 +7,13 @@ export default class RendererStore {
     [propName: string]: RendererOptions
   }
 
+  private actionStore!: {
+    [propName: string]: RendererOptions
+  }
+
   constructor() {
     this.store = {}
+    this.actionStore = {}
   }
 
   public register(options: RendererOptions) {
@@ -24,6 +30,15 @@ export default class RendererStore {
     return renderer && renderer.component
   }
 
+  public registerAction(options: RendererOptions) {
+    this.actionStore[options.name] = options
+  }
+
+  public getActionRenderer(type: string) {
+    const renderer = this.actionStore[type]
+    return renderer && renderer.component
+  }
+
   public getAllComponents() {
     return Object.entries(this.store).reduce((acc, [k, { component }]) => {
       acc[k] = component
@@ -33,6 +48,15 @@ export default class RendererStore {
 
   public getDefaultValue(type: string) {
     const value = this.get(type).value
-    return value === undefined ? null : value
+
+    if (value === undefined) {
+      return null
+    }
+
+    if (isFunction(value)) {
+      return value()
+    }
+
+    return value
   }
 }
