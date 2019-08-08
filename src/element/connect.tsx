@@ -1,3 +1,4 @@
+import { get, set } from 'lodash'
 import { Component, Prop, Inject, Vue } from 'vue-property-decorator'
 
 @Component
@@ -17,12 +18,12 @@ export default class ConnectMixin extends Vue {
   }
 
   public get localValue() {
-    return this.value || this.formModel[this.prop] || null
+    return this.value || get(this.formModel, this.prop) || null
   }
   public set localValue(value: any) {
     this.$emit('input', value)
     if (this.prop) {
-      this.formModel[this.prop] = value
+      set(this.formModel, this.prop, value)
     }
   }
 }

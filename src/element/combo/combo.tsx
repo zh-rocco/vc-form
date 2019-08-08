@@ -50,18 +50,17 @@ export default class Combo extends Vue {
   // 生成 combo-item
   private createComboItem(index = 0) {
     const builtIn = ['name', 'label', 'type'] // 需要特殊处理的字段
-    const { prop: propName, localValue } = this
-    const valueObject = localValue[index]
+    const { prop: propName } = this
 
     return this.controls.map((control) => {
       const { name, label, type, rules } = control
       const extra = pickBy(control, (value, key) => !builtIn.includes(key))
+      const path = `${propName}.${index}.${name}`
 
       return (
-        <el-form-item prop={`${propName}.${index}.${name}`} rules={rules}>
+        <el-form-item prop={path} rules={rules}>
           <Renderer
-            vModel={valueObject[name]}
-            options={{ ...control, ...{ name: undefined } }}
+            options={{ ...control, ...{ name: path } }}
           />
         </el-form-item>
       )
