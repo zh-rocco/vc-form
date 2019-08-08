@@ -1,26 +1,147 @@
+import Vue from 'vue'
+import { cloneDeep, pickBy } from 'lodash'
 import { Component, Prop } from 'vue-property-decorator'
-import Combo from './combo'
-import { RendererOptions } from '@/types'
+import _Renderer from '@/element/renderer'
 import ConnectMixin from '../connect'
+import { RendererOptions, PlainObject } from '@/types'
 
-@Component({
-  components: { Combo }
-})
+const Renderer: any = Vue.extend(_Renderer)
+
+// 生成随机字符串 (length <= 10)
+function getRandomString(length = 10) {
+  return Math.random()
+    .toString(36)
+    .substr(2, Math.min(length, 10))
+}
+
+@Component
 class VcCombo extends ConnectMixin {
-  @Prop({ type: Object, default: () => ({}) }) readonly model!: any // form 的数据模型
-  @Prop({ type: Object, default: () => ({}) }) readonly options!: any
+  private keys: string[] = []
+
+  private get controls() {
+    return this.options.controls || []
+  }
+
+  // 是否 inline 显示
+  private get inline() {
+    const { inline } = this.options
+    return inline === undefined ? true : inline
+  }
+
+  // combo-item 的最大数量
+  private get min() {
+    const { min } = this.options
+    return min === undefined ? 1 : min
+  }
+
+  // combo-item 的最大数量
+  private get max() {
+    const { max } = this.options
+    return max === undefined ? Infinity : max
+  }
+
+  // combo-item 数据结构
+  private get dataStructure() {
+    return this.controls.reduce((acc: { [prop: string]: any }, curr) => {
+      acc[curr.name] = null
+      return acc
+    }, {})
+  }
+
+  private get length() {
+    return this.localValue.length
+  }
+
+  // 添加 combo-item
+  private add() {
+    if (this.length >= this.max) return
+
+    console.log((this.$parent as any).initialValue)
+
+    this.localValue.push(cloneDeep(this.dataStructure))
+    this.keys.push(getRandomString())
+  }
+
+  // 删除 combo-item
+  private remove(index: number) {
+    if (!this.localValue[index]) return
+
+    this.localValue.splice(index, 1)
+    this.keys.splice(index, 1)
+  }
+
+  // 生成 combo-item
+  private createComboItem(index = 0) {
+    const builtIn = ['name', 'label', 'type'] // 需要特殊处理的字段
+    const { prop: propName } = this
+
+    return this.controls.map((control) => {
+      const { name, label, type, rules } = control
+      const extra = pickBy(control, (value, key) => !builtIn.includes(key))
+      const path = `${propName}.${index}.${name}`
+
+      return (
+        <el-form-item
+          prop={path}
+          rules={rules}
+        >
+          <Renderer
+            options={{ ...control, ...{ name: path } }}
+          />
+        </el-form-item>
+      )
+    })
+  }
+
+  // 生成 combo
+  private createCombo() {
+    return Array.from({ length: this.length }).map((item, index) => {
+      return (
+        <div
+          class="crm-combo-item"
+          key={this.keys[index]}
+        >
+          {this.createComboItem(index)}
+
+          <el-form-item>
+            <el-button
+              type="text"
+              disabled={this.length <= this.min}
+              onClick={() => this.remove(index)}
+            >
+              删除
+            </el-button>
+          </el-form-item>
+        </div>
+      )
+    })
+  }
+
+  private initDefaultValue() {
+    let i = this.min
+    while (i) {
+      this.add()
+      i--
+    }
+  }
 
   render() {
+    if (this.min && !this.length) {
+      return this.initDefaultValue()
+    }
+
     console.log('render combo driver:', this.options.name)
-    const { inline } = this.options
+
+    const className = this.inline ? 'crm-combo crm-combo--inline inline' : 'crm-combo'
 
     return (
-      <combo
-        vModel={this.localValue}
-        prop={this.prop}
-        attrs={this.options}
-        class={{ inline }}
-      />
+      <div class={className}>
+        {this.createCombo()}
+
+        <el-form-item>
+          <el-button onClick={this.add} disabled={this.length >= this.max}>添加</el-button>
+        </el-form-item>
+      </div>
     )
   }
 }

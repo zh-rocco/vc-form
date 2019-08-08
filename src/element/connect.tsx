@@ -1,5 +1,6 @@
 import { get, set } from 'lodash'
 import { Component, Prop, Inject, Vue } from 'vue-property-decorator'
+import { FormItemProps } from '@/types'
 
 @Component
 export default class ConnectMixin extends Vue {
@@ -7,7 +8,7 @@ export default class ConnectMixin extends Vue {
   @Inject({ default() { return {} } }) readonly formIns!: any
 
   @Prop({ default: null }) readonly value!: any
-  @Prop({ type: Object, default: () => ({}) }) readonly options!: any
+  @Prop({ type: Object, default: () => ({}) }) readonly options!: FormItemProps
 
   public get formRef() {
     return this.formIns.$refs.form

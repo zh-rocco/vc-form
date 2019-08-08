@@ -41,7 +41,7 @@ class FormRenderer extends Vue {
     return (
       <el-form-item
         label={label}
-        prop={name}
+        prop={hasChildren ? undefined : name}
         rules={isRequired ? rules || { required: isRequired } : rules}
         class={hasChildren ? 'nested' : undefined}
       >
@@ -96,10 +96,7 @@ class FormRenderer extends Vue {
   }
 
   public resetFields() {
-    // TODO: 修复重置时 combo 组件报错的 BUG
-    try {
-      this.$refs.form.resetFields()
-    } catch { }
+    this.$refs.form.resetFields()
     this.$emit('reset')
   }
 

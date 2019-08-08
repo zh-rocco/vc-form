@@ -87,6 +87,7 @@ export default class App extends Vue {
         label: '组合',
         type: 'vc-combo',
         max: 50,
+        min: 1,
         inline: true,
         controls: [
           {
@@ -96,7 +97,7 @@ export default class App extends Vue {
             placeholder: '请输入客户的姓名',
             clearable: true,
             rules: [
-              { required: true, message: '请输入客户的姓名', trigger: 'change' }
+              { required: true, message: '请输入客户的姓名', trigger: 'blur' }
             ]
           },
           {
