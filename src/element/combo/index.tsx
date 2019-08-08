@@ -12,13 +12,14 @@ class VcCombo extends ConnectMixin {
 
   render() {
     console.log('render combo driver:', this.options.name)
+    const { inline } = this.options
 
     return (
       <combo
-        prop={this.prop || ''}
-        props={{ model: this.formModel }}
+        vModel={this.localValue}
+        prop={this.prop}
         attrs={this.options}
-        class="inline"
+        class={{ inline }}
       />
     )
   }

@@ -23,7 +23,7 @@ export interface BaseProps extends PlainObject {
 export interface FormItemProps extends BaseProps {
   placeholder?: string
   clearable?: boolean
-  rules?: object[]
+  rules?: PlainObject[]
 }
 
 export interface FormProps extends BaseProps {

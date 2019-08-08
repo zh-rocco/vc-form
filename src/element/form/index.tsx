@@ -34,12 +34,15 @@ class FormRenderer extends Vue {
     const { type, label, name, rules, controls, style } = schema
     const Tag = rendererStore.getRenderer(type) || type
     const hasChildren = Array.isArray(controls) && controls.length
+    const isRequired = controls && controls.some(({ rules }) => {
+      return rules && rules.some(({ required }) => required)
+    })
 
     return (
       <el-form-item
         label={label}
         prop={name}
-        rules={rules}
+        rules={isRequired ? rules || { required: isRequired } : rules}
         class={hasChildren ? 'nested' : undefined}
       >
         <Tag

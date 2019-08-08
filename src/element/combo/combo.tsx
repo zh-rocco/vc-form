@@ -1,5 +1,10 @@
+import Vue from 'vue'
 import { cloneDeep, pickBy } from 'lodash'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
+import _Renderer from '@/element/renderer'
+import { PlainObject } from '@/types'
+
+const Renderer: any = Vue.extend(_Renderer)
 
 // 生成随机字符串 (length <= 10)
 function getRandomString(length = 10) {
@@ -10,31 +15,29 @@ function getRandomString(length = 10) {
 
 @Component
 export default class Combo extends Vue {
-  @Prop({ type: Object, default: () => ({}) }) readonly model!: any // form 的数据模型
+  @Prop({ type: Array, default: () => [] }) readonly value!: PlainObject[] // form 的数据模型
   @Prop({ type: String, required: true }) readonly prop!: string // 对应 el-form-item 的 prop 字段
   @Prop({ type: Array, default: () => [] }) readonly controls!: any[] // combo 配置
   @Prop({ type: Boolean, default: true }) readonly inline!: boolean // 表单内联
   @Prop({ type: Number, default: 1 }) readonly min!: number // combo-item 的最小数量
   @Prop({ type: Number, default: Infinity }) readonly max!: number // combo-item 的最大数量
 
-  private formModelStructure: { [prop: string]: any } = {} // combo-item 数据结构
-  private comboKeys: string[] = []
+  private formModelStructure: PlainObject = {} // combo-item 数据结构
 
   // combo 组件的数据模型
   private get localValue() {
-    const value = this.model[this.prop]
-    return Array.isArray(value) ? value : []
+    return this.value
   }
-  private set localValue(value: any[]) {
-    this.model[this.prop] = value
+
+  private get length() {
+    return this.localValue.length
   }
 
   // 添加 combo-item
   private add() {
-    if (this.comboKeys.length >= this.max) return
+    if (this.length >= this.max) return
 
     this.localValue.push(cloneDeep(this.formModelStructure))
-    this.comboKeys.push(getRandomString())
   }
 
   // 删除 combo-item
@@ -42,7 +45,6 @@ export default class Combo extends Vue {
     if (!this.localValue[index]) return
 
     this.localValue.splice(index, 1)
-    this.comboKeys.splice(index, 1)
   }
 
   // 生成 combo-item
@@ -57,10 +59,9 @@ export default class Combo extends Vue {
 
       return (
         <el-form-item prop={`${propName}.${index}.${name}`} rules={rules}>
-          <el-input
+          <Renderer
             vModel={valueObject[name]}
-            {...{ attrs: extra }}
-            clearable
+            options={{ ...control, ...{ name: undefined } }}
           />
         </el-form-item>
       )
@@ -69,15 +70,15 @@ export default class Combo extends Vue {
 
   // 生成 combo
   private createCombo() {
-    return this.localValue.map((item, index) => {
+    return Array.from({ length: this.length }).map((item, index) => {
       return (
-        <div class="crm-combo-item" key={this.comboKeys[index]}>
+        <div class="crm-combo-item">
           {this.createComboItem(index)}
 
           <el-form-item>
             <el-button
               type="text"
-              disabled={this.localValue.length <= this.min}
+              disabled={this.length <= this.min}
               onClick={() => this.remove(index)}
             >
               删除
@@ -104,11 +105,9 @@ export default class Combo extends Vue {
   }
 
   render() {
-    console.log('render combo', JSON.stringify(this.localValue))
-
     this.formModelStructure = this.getComboStructure()
 
-    if (!this.localValue.length) {
+    if (!this.length) {
       return this.initDefaultValue()
     }
 
@@ -118,11 +117,11 @@ export default class Combo extends Vue {
 
     return (
       <div class={className}>
-        {combo}
-
         <el-form-item>
-          <el-button onClick={this.add} disabled={this.localValue.length >= this.max}>添加</el-button>
+          <el-button onClick={this.add} disabled={this.length >= this.max}>添加</el-button>
         </el-form-item>
+
+        {combo}
       </div>
     )
   }

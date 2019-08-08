@@ -1,4 +1,4 @@
-// import Form from '@/element/form'
+import FormField from '@/element/form-field'
 import Combo from '@/element/combo'
 import Text from '@/element/text'
 import Select from '@/element/select'
@@ -10,7 +10,7 @@ import ColumnLayout from '@/element/layout/column'
 import InlineLayout from '@/element/layout/inline'
 
 export default {
-  // Form,
+  FormField,
   Combo,
   Text,
   Select,

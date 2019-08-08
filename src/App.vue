@@ -21,7 +21,7 @@ export default class App extends Vue {
     name: 'type',
     type: 'vc-form',
     style: {
-      width: '600px',
+      // width: '600px',
       'user-select': 'none'
     },
     size: 'mini',
@@ -57,12 +57,18 @@ export default class App extends Vue {
           {
             name: 'date',
             type: 'vc-date',
-            clearable: true
+            clearable: true,
+            rules: [
+              { required: true, message: '请选择活动日期', trigger: 'change' }
+            ]
           },
           {
             name: 'time',
             type: 'vc-time',
-            clearable: true
+            clearable: true,
+            rules: [
+              { required: true, message: '请选择活动时间', trigger: 'change' }
+            ]
           }
         ]
       },
@@ -80,15 +86,17 @@ export default class App extends Vue {
         name: 'combo',
         label: '组合',
         type: 'vc-combo',
-        max: 5,
+        max: 50,
+        inline: true,
         controls: [
           {
             name: 'name',
             // label: '客户姓名',
             type: 'vc-text',
             placeholder: '请输入客户的姓名',
+            clearable: true,
             rules: [
-              { required: true, message: '请输入客户的姓名', trigger: 'blur' }
+              { required: true, message: '请输入客户的姓名', trigger: 'change' }
             ]
           },
           {
@@ -96,9 +104,24 @@ export default class App extends Vue {
             // label: '移动电话',
             type: 'vc-text',
             placeholder: '请输入客户的移动电话',
+            clearable: true,
             rules: [
-              { required: true, message: '请输入客户的移动电话', trigger: 'blur' },
-              { pattern: /^1[3-9]\d{9}$/, message: '请输入合法的移动电话', trigger: 'blur' }
+              { required: true, message: '请输入客户的移动电话', trigger: 'change' },
+              { pattern: /^1[3-9]\d{9}$/, message: '请输入合法的移动电话', trigger: 'change' }
+            ]
+          },
+          {
+            name: 'region',
+            // label: '活动区域',
+            type: 'vc-select',
+            placeholder: '请输选择活动区域',
+            clearable: true,
+            options: [
+              { name: '区域一', value: 'shanghai' },
+              { name: '区域二', value: 'beijing' }
+            ],
+            rules: [
+              { required: true, message: '请输选择活动区域', trigger: 'change' }
             ]
           }
         ]
