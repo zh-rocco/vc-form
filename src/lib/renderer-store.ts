@@ -47,7 +47,13 @@ export default class RendererStore {
   }
 
   public getDefaultValue(type: string) {
-    const value = this.get(type).value
+    const render = this.get(type)
+
+    if (!render) {
+      return null
+    }
+
+    const value = render.value
 
     if (value === undefined) {
       return null

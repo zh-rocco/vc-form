@@ -18,7 +18,6 @@ export default class App extends Vue {
   private selected: boolean = false
 
   private options = {
-    name: 'type',
     type: 'vc-form',
     style: {
       // width: '600px',

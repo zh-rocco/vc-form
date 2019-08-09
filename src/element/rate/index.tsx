@@ -3,7 +3,7 @@ import ConnectMixin from '../connect'
 import { RendererOptions } from '@/types'
 
 @Component
-class Rate extends ConnectMixin {
+class VcRate extends ConnectMixin {
   render() {
     console.log('render rate:', this.options.name)
     const { placeholder, clearable } = this.options
@@ -24,7 +24,7 @@ class Rate extends ConnectMixin {
 const options: RendererOptions = {
   name: 'vc-rate',
   description: '评分',
-  component: Rate,
+  component: VcRate,
   value: 0
 }
 
