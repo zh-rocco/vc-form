@@ -14,8 +14,8 @@ import FormRenderer from '@/element/form'
   }
 })
 export default class App extends Vue {
-  private wrapped: string | null = null
-  private selected: boolean = false
+  private wrapped: string | null = null;
+  private selected: boolean = false;
 
   private options = {
     type: 'vc-form',
@@ -36,6 +36,7 @@ export default class App extends Vue {
           { required: true, message: '请输入活动名称', trigger: 'change' }
         ]
       },
+
       {
         name: 'region',
         label: '活动区域',
@@ -50,6 +51,7 @@ export default class App extends Vue {
           { required: true, message: '请输选择活动区域', trigger: 'change' }
         ]
       },
+
       {
         type: 'inline-layout',
         label: '活动时间',
@@ -72,11 +74,77 @@ export default class App extends Vue {
           }
         ]
       },
+
+      {
+        name: 'delivery',
+        label: '即时配送',
+        type: 'vc-switch'
+      },
+
+      {
+        name: 'type',
+        label: '活动性质',
+        type: 'vc-checkbox',
+        options: [
+          { name: '美食/餐厅线上活动' },
+          { name: '地推活动' },
+          { name: '线下主题活动' },
+          { name: '单纯品牌曝光' }
+        ]
+      },
+
+      {
+        name: 'resource',
+        label: '特殊资源',
+        type: 'vc-radio',
+        value: '线上品牌商赞助',
+        options: [
+          { name: '线上品牌商赞助' },
+          { name: '线下场地免费' }
+        ]
+      },
+
+      {
+        name: 'desc',
+        label: '活动形式',
+        type: 'vc-textarea',
+        clearable: true
+      },
+
       {
         name: 'rate',
         label: '评分',
         type: 'vc-rate'
       },
+
+      {
+        name: 'switch1',
+        label: '展示',
+        type: 'vc-switch'
+      },
+      {
+        name: 'switch1-control',
+        label: '联动隐藏',
+        type: 'vc-text',
+        placeholder: '点击 "展示开关" 隐藏',
+        clearable: true,
+        visibleOn: '$model.switch1 === true'
+      },
+
+      {
+        name: 'switch2',
+        label: '禁用',
+        type: 'vc-switch'
+      },
+      {
+        name: 'switch2-control',
+        label: '联动禁用',
+        type: 'vc-text',
+        placeholder: '点击 "禁用开关" 禁用',
+        clearable: true,
+        disabledOn: '$model.switch2 === true'
+      },
+
       {
         name: 'combo',
         label: '组合',
@@ -102,8 +170,16 @@ export default class App extends Vue {
             placeholder: '请输入客户的移动电话',
             clearable: true,
             rules: [
-              { required: true, message: '请输入客户的移动电话', trigger: 'change' },
-              { pattern: /^1[3-9]\d{9}$/, message: '请输入合法的移动电话', trigger: 'change' }
+              {
+                required: true,
+                message: '请输入客户的移动电话',
+                trigger: 'change'
+              },
+              {
+                pattern: /^1[3-9]\d{9}$/,
+                message: '请输入合法的移动电话',
+                trigger: 'change'
+              }
             ]
           },
           {
@@ -121,37 +197,6 @@ export default class App extends Vue {
             ]
           }
         ]
-      },
-      {
-        name: 'switch',
-        label: '开关',
-        type: 'vc-switch'
-      },
-      {
-        name: 'switch-control',
-        label: '开关控制',
-        type: 'vc-text',
-        placeholder: '测试开关控制',
-        clearable: true,
-        visibleOn: '$model.switch === true'
-      },
-      {
-        name: 'radio',
-        label: '地区选择',
-        type: 'vc-radio',
-        value: 'shanghai',
-        options: [
-          { name: '上海', value: 'shanghai' },
-          { name: '北京', value: 'beijing' }
-        ]
-      },
-      {
-        name: 'radio-control',
-        label: '禁用',
-        type: 'vc-text',
-        placeholder: '测试禁用',
-        clearable: true,
-        disabledOn: '$model.radio === "shanghai"'
       }
     ],
     actions: [

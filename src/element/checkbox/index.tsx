@@ -3,37 +3,38 @@ import ConnectMixin from '../connect'
 import { RendererOptions, SchemaOption } from '@/types'
 
 @Component
-class VcRadio extends ConnectMixin {
+class VcCheckbox extends ConnectMixin {
   private renderChildren(options: SchemaOption[]) {
     return options.map(({ name, value = name }) => {
       return (
-        <el-radio
+        <el-checkbox
           label={value}
         >
           {name}
-        </el-radio>
+        </el-checkbox>
       )
     })
   }
 
   render() {
-    console.log('render radio:', this.options.name)
+    console.log('render checkbox:', this.options.name)
     const { placeholder, clearable, options } = this.options
 
     return (
-      <el-radio-group
+      <el-checkbox-group
         vModel={this.localValue}
       >
         {this.renderChildren(options)}
-      </el-radio-group>
+      </el-checkbox-group>
     )
   }
 }
 
 const options: RendererOptions = {
-  name: 'vc-radio',
-  description: '单选',
-  component: VcRadio
+  name: 'vc-checkbox',
+  description: '多选',
+  component: VcCheckbox,
+  value: () => []
 }
 
 export default options
