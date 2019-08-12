@@ -77,29 +77,6 @@ export default class App extends Vue {
         type: 'vc-rate'
       },
       {
-        name: 'switch',
-        label: '开关',
-        type: 'vc-switch'
-      },
-      {
-        name: 'switch-control',
-        label: '开关控制',
-        type: 'vc-text',
-        placeholder: '测试开关控制',
-        clearable: true,
-        visibleOn: '$model.switch === true'
-      },
-      {
-        name: 'radio',
-        label: '地区选择',
-        type: 'vc-radio',
-        value: 'shanghai',
-        options: [
-          { name: '上海', value: 'shanghai' },
-          { name: '北京', value: 'beijing' }
-        ]
-      },
-      {
         name: 'combo',
         label: '组合',
         type: 'vc-combo',
@@ -143,6 +120,37 @@ export default class App extends Vue {
             ]
           }
         ]
+      },
+      {
+        name: 'switch',
+        label: '开关',
+        type: 'vc-switch'
+      },
+      {
+        name: 'switch-control',
+        label: '开关控制',
+        type: 'vc-text',
+        placeholder: '测试开关控制',
+        clearable: true,
+        visibleOn: '$model.switch === true'
+      },
+      {
+        name: 'radio',
+        label: '地区选择',
+        type: 'vc-radio',
+        value: 'shanghai',
+        options: [
+          { name: '上海', value: 'shanghai' },
+          { name: '北京', value: 'beijing' }
+        ]
+      },
+      {
+        name: 'radio-control',
+        label: '禁用',
+        type: 'vc-text',
+        placeholder: '测试禁用',
+        clearable: true,
+        disabledOn: '$model.radio === "shanghai"'
       }
     ],
     actions: [

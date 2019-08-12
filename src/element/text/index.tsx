@@ -13,6 +13,7 @@ class VcText extends ConnectMixin {
         vModel={this.localValue}
         placeholder={placeholder}
         clearable={clearable}
+        disabled={this.isDisabled}
       />
     )
   }

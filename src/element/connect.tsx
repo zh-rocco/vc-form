@@ -1,5 +1,6 @@
 import { get, set } from 'lodash'
 import { Component, Prop, Inject, Vue } from 'vue-property-decorator'
+import { evalExpression } from '@/element/utils'
 import { FormItemProps } from '@/types'
 
 @Component
@@ -26,5 +27,25 @@ export default class ConnectMixin extends Vue {
     if (this.prop) {
       set(this.formModel, this.prop, value)
     }
+  }
+
+  public get isDisabled() {
+    return this._isDisabled(this.options.disabledOn)
+  }
+
+  private _isDisabled(value: undefined | boolean | string) {
+    if (value === undefined) {
+      return false
+    }
+
+    if (typeof value === 'boolean') {
+      return value
+    }
+
+    if (typeof value === 'string') {
+      return evalExpression(value, this.formModel)
+    }
+
+    return true
   }
 }

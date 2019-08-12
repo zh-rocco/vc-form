@@ -22,7 +22,7 @@ export interface BaseProps extends PlainObject {
   controls?: Schema[]
   actions?: FormAction[]
   visibleOn?: string | boolean
-  disableOn?: string | boolean
+  disabledOn?: string | boolean
   disabled?: boolean
   options: SchemaOption[]
 }
