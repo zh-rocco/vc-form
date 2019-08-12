@@ -90,6 +90,16 @@ export default class App extends Vue {
         visibleOn: '$model.switch === true'
       },
       {
+        name: 'radio',
+        label: '地区选择',
+        type: 'vc-radio',
+        value: 'shanghai',
+        options: [
+          { name: '上海', value: 'shanghai' },
+          { name: '北京', value: 'beijing' }
+        ]
+      },
+      {
         name: 'combo',
         label: '组合',
         type: 'vc-combo',
