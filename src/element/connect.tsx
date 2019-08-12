@@ -48,4 +48,22 @@ export default class ConnectMixin extends Vue {
 
     return true
   }
+
+  private _autoFocus() {
+    if (!this.options.autoFocus) return
+
+    console.log('[autoFocus]:', this.options.name)
+
+    const $input = this.$el.querySelector('input')
+
+    if ($input) {
+      setTimeout(() => {
+        $input.focus()
+      }, 0)
+    }
+  }
+
+  public mounted() {
+    this._autoFocus()
+  }
 }

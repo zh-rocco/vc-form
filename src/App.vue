@@ -31,6 +31,7 @@ export default class App extends Vue {
         type: 'vc-text',
         placeholder: '请输入活动名称',
         clearable: true,
+        autoFocus: true,
         rules: [
           { required: true, message: '请输入活动名称', trigger: 'change' }
         ]
