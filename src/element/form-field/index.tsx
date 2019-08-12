@@ -1,24 +1,33 @@
 import { Component } from 'vue-property-decorator'
+import { directiveStore } from '@/lib/directives'
 import ConnectMixin from '../connect'
 import { evalExpression } from '../utils'
 import { RendererOptions } from '@/types'
 
 @Component
 class FormField extends ConnectMixin {
-  private canVisible(visibleOn: undefined | boolean | string) {
-    if (visibleOn === undefined) {
+  private canVisible(value: undefined | boolean | string) {
+    if (value === undefined) {
       return true
     }
 
-    if (typeof visibleOn === 'boolean') {
-      return visibleOn
+    if (typeof value === 'boolean') {
+      return value
     }
 
-    if (typeof visibleOn === 'string') {
-      return evalExpression(visibleOn, this.formModel)
+    if (typeof value === 'string') {
+      return evalExpression(value, this.formModel)
     }
 
     return true
+  }
+
+  private runDirectives() {
+    for (const [name, directive] of Object.entries(directiveStore.getAllDirectives())) {
+      const value = this.options[name]
+      if (value === undefined) continue
+      directive(this.$el, value, this)
+    }
   }
 
   render() {
