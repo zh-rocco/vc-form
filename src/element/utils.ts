@@ -36,3 +36,18 @@ export const getStyle = (styleObject: PlainObject | undefined) => {
     }, [] as string[])
     .join('; ')
 }
+
+export function evalExpression(expression: string, data?: PlainObject): boolean {
+  try {
+    // eslint-disable-next-line
+    const fn = new Function(
+      '$model',
+      `return !!(${expression})`
+    )
+    data = data || {}
+    return fn.call(data, data)
+  } catch (e) {
+    console.warn(e)
+    return false
+  }
+}

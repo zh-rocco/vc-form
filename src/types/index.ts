@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue, { Component } from 'vue'
 
 export interface PlainObject {
   [propsName: string]: any
@@ -10,14 +10,21 @@ export interface FormAction extends PlainObject {
   type: FormActionType
 }
 
+export interface SchemaOption {
+  name: string | number | boolean
+  value: string | number | boolean
+}
+
 export interface BaseProps extends PlainObject {
   type: string
   name: string
   value?: any
   controls?: Schema[]
   actions?: FormAction[]
-  visible?: boolean
+  visibleOn?: string | boolean
+  disableOn?: string | boolean
   disabled?: boolean
+  options: SchemaOption[]
 }
 
 export interface FormItemProps extends BaseProps {
@@ -46,8 +53,11 @@ export interface RendererOptions extends PlainObject {
   value?: any
 }
 
+export type DirectiveHandler = (value: string, model: PlainObject, vm: ThisType<Component>) => boolean
+
 /** Directive Options */
 export interface DirectiveOptions extends PlainObject {
   name: string
   description?: string
+  directive: DirectiveHandler
 }

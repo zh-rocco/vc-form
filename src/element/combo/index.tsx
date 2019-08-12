@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { cloneDeep, pickBy } from 'lodash'
 import { Component, Prop } from 'vue-property-decorator'
 import _Renderer from '@/element/renderer'
+import FormField from '@/element/form-field'
 import ConnectMixin from '../connect'
 import { RendererOptions, PlainObject } from '@/types'
 
@@ -56,8 +57,6 @@ class VcCombo extends ConnectMixin {
   private add() {
     if (this.length >= this.max) return
 
-    console.log((this.$parent as any).initialValue)
-
     this.localValue.push(cloneDeep(this.dataStructure))
     this.keys.push(getRandomString())
   }
@@ -79,16 +78,18 @@ class VcCombo extends ConnectMixin {
       const { name, label, type, rules } = control
       const extra = pickBy(control, (value, key) => !builtIn.includes(key))
       const path = `${propName}.${index}.${name}`
+      const _options = { ...control, ...{ name: path } }
 
       return (
-        <el-form-item
+        <FormField.component
           prop={path}
           rules={rules}
+          options={_options}
         >
           <Renderer
-            options={{ ...control, ...{ name: path } }}
+            options={_options}
           />
-        </el-form-item>
+        </FormField.component>
       )
     })
   }
@@ -103,7 +104,9 @@ class VcCombo extends ConnectMixin {
         >
           {this.createComboItem(index)}
 
-          <el-form-item>
+          <FormField.component
+            options={{ type: 'button', name: 'delete' }}
+          >
             <el-button
               type="text"
               disabled={this.length <= this.min}
@@ -111,7 +114,7 @@ class VcCombo extends ConnectMixin {
             >
               删除
             </el-button>
-          </el-form-item>
+          </FormField.component>
         </div>
       )
     })
@@ -138,10 +141,12 @@ class VcCombo extends ConnectMixin {
       <div class={className}>
         {this.createCombo()}
 
-        <el-form-item>
+        <FormField.component
+          options={{ type: 'button', name: 'add' }}
+        >
           <el-button onClick={this.add} disabled={this.length >= this.max}>添加</el-button>
-        </el-form-item>
-      </div>
+        </FormField.component>
+      </div >
     )
   }
 }

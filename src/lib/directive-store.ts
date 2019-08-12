@@ -1,4 +1,4 @@
-import { DirectiveOptions } from '@/types'
+import { DirectiveHandler, DirectiveOptions } from '@/types'
 
 export default class DirectiveStore {
   private store!: {
@@ -20,5 +20,12 @@ export default class DirectiveStore {
   public getDirective(type: string) {
     const directive = this.store[type]
     return directive && directive.component
+  }
+
+  public getAllDirectives() {
+    return Object.entries(this.store).reduce((acc, [k, { directive }]) => {
+      acc[k] = directive
+      return acc
+    }, {} as { [propName: string]: DirectiveHandler })
   }
 }

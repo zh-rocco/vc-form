@@ -1,6 +1,8 @@
 import { Component, Prop, Provide, Watch, Vue } from 'vue-property-decorator'
 import { rendererStore } from '@/lib/renderers'
-import { walk, getStyle } from '../utils'
+import { directiveStore } from '@/lib/directives'
+import FormField from '@/element/form-field'
+import { walk, getStyle, evalExpression } from '../utils'
 import { PlainObject, Schema, FormAction } from '@/types'
 
 import { Button } from 'element-ui'
@@ -8,6 +10,7 @@ import { Button } from 'element-ui'
 console.log(Button)
 
 console.log(rendererStore.getAllComponents())
+console.log(directiveStore.getAllDirectives())
 
 @Component
 class FormRenderer extends Vue {
@@ -30,9 +33,10 @@ class FormRenderer extends Vue {
   genFormModel(schema: Schema) {
     const { model, $set } = this
 
-    walk(schema, ({ type, name }) => {
+    walk(schema, ({ type, name, value }) => {
       if (name && this.model[name] === undefined) {
-        $set(model, name, rendererStore.getDefaultValue(type))
+        const _value = value === undefined ? rendererStore.getDefaultValue(type) : value
+        $set(model, name, _value)
       }
     })
   }
@@ -51,11 +55,12 @@ class FormRenderer extends Vue {
     })
 
     return (
-      <el-form-item
+      <FormField.component
         key={this.genFormItemKey(schema)}
         label={label}
         prop={hasChildren ? undefined : name}
         rules={isRequired ? rules || { required: isRequired } : rules}
+        options={schema}
         class={hasChildren ? 'nested' : undefined}
       >
         <Tag
@@ -64,7 +69,7 @@ class FormRenderer extends Vue {
         >
           {hasChildren ? this.renderFormItems(controls) : null}
         </Tag>
-      </el-form-item>
+      </FormField.component>
     )
   }
 
@@ -88,9 +93,11 @@ class FormRenderer extends Vue {
 
   renderFormActions(actions: FormAction[] = []) {
     return (
-      <el-form-item>
+      <FormField.component
+        options={{ type: 'buttons', name: 'form-actions' }}
+      >
         {actions.map(action => this.renderFormAction(action))}
-      </el-form-item>
+      </FormField.component>
     )
   }
 

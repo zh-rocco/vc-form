@@ -82,6 +82,14 @@ export default class App extends Vue {
         type: 'vc-switch'
       },
       {
+        name: 'switch-control',
+        label: '开关控制',
+        type: 'vc-text',
+        placeholder: '测试开关控制',
+        clearable: true,
+        visibleOn: '$model.switch === true'
+      },
+      {
         name: 'combo',
         label: '组合',
         type: 'vc-combo',
