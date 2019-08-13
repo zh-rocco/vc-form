@@ -10,7 +10,7 @@ export interface FormAction extends PlainObject {
   type: FormActionType
 }
 
-export interface SchemaOption {
+export interface SchemaOptionField {
   name: string | number | boolean
   value: string | number | boolean
 }
@@ -23,30 +23,26 @@ export interface BaseProps extends PlainObject {
   actions?: FormAction[]
   visibleOn?: string | boolean
   disabledOn?: string | boolean
-  disabled?: boolean
-  options: SchemaOption[]
+  options?: SchemaOptionField[]
 }
 
-export interface FormItemProps extends BaseProps {
+export interface FormFieldProps extends BaseProps {
   placeholder?: string
   clearable?: boolean
+  options?: SchemaOptionField[]
   rules?: PlainObject[]
 }
 
 export interface FormProps extends BaseProps {
+  actions?: FormAction[]
 }
 
-export interface Schema extends FormItemProps {
-  __parent__: Schema | null
-}
-
-/** Renderer Component */
-export declare class RendererComponent extends Vue {
-  [propsName: string]: any
+export interface Schema extends FormFieldProps {
 }
 
 type _RendererValueType = null | boolean | number | string | PlainObject
-type RendererValueType = _RendererValueType | _RendererValueType[]
+
+export type RendererValueType = _RendererValueType | _RendererValueType[]
 
 /** Renderer Options */
 export interface RendererOptions extends PlainObject {

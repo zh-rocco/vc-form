@@ -2,7 +2,7 @@ import { Component } from 'vue-property-decorator'
 import { directiveStore } from '@/lib/directives'
 import ConnectMixin from '../connect'
 import { evalExpression } from '../utils'
-import { FormItemProps, RendererOptions } from '@/types'
+import { FormFieldProps, RendererOptions } from '@/types'
 
 @Component
 class FormField extends ConnectMixin {
@@ -22,7 +22,7 @@ class FormField extends ConnectMixin {
     return true
   }
 
-  genFormItemKey(schema: FormItemProps) {
+  genFormItemKey(schema: FormFieldProps) {
     const { name, controls = [] } = schema
     return name || controls.map(({ name }) => name).filter(name => name).join('@')
   }

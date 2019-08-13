@@ -1,10 +1,10 @@
 import { Component } from 'vue-property-decorator'
 import ConnectMixin from '../connect'
-import { RendererOptions, SchemaOption } from '@/types'
+import { RendererOptions, SchemaOptionField } from '@/types'
 
 @Component
 class RadioControl extends ConnectMixin {
-  private renderChildren(options: SchemaOption[]) {
+  private renderChildren(options: SchemaOptionField[] = []) {
     return options.map(({ name, value = name }) => {
       return (
         <el-radio

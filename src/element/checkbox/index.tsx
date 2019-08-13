@@ -1,10 +1,10 @@
 import { Component } from 'vue-property-decorator'
 import ConnectMixin from '../connect'
-import { RendererOptions, SchemaOption } from '@/types'
+import { RendererOptions, SchemaOptionField } from '@/types'
 
 @Component
 class CheckboxControl extends ConnectMixin {
-  private renderChildren(options: SchemaOption[]) {
+  private renderChildren(options: SchemaOptionField[]) {
     return options.map(({ name, value = name }) => {
       return (
         <el-checkbox
@@ -48,7 +48,7 @@ const options: RendererOptions = {
   name: 'checkbox',
   description: '多选',
   component: CheckboxControl,
-  value: ({ options }) => options.length > 1 ? [] : false
+  value: ({ options = [] }) => options.length > 1 ? [] : false
 }
 
 export default options

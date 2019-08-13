@@ -12,6 +12,7 @@ export const OptionsControl = (config: PlainObject) => {
 
 // export const OptionsControl = (config: PlainObject) => (component: Component) => ({ ...config, component })
 
+/** 深度遍历 schema */
 export const walk = (schema: Schema, cb?: (schema: Schema) => void) => {
   const { controls } = schema
 
