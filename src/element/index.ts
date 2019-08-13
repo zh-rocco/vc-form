@@ -1,6 +1,7 @@
 import FormField from '@/element/form-field'
 import Combo from '@/element/combo'
 import Text from '@/element/text'
+import Password from '@/element/password'
 import Textarea from '@/element/textarea'
 import Select from '@/element/select'
 import VcDate from '@/element/date'
@@ -16,6 +17,7 @@ export default {
   FormField,
   Combo,
   Text,
+  Password,
   Textarea,
   Select,
   VcDate,

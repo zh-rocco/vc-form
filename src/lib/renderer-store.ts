@@ -1,6 +1,6 @@
 import { Component } from 'vue'
 import { isFunction } from 'lodash'
-import { RendererOptions, RendererComponent } from '@/types'
+import { RendererOptions, Schema } from '@/types'
 
 export default class RendererStore {
   private store!: {
@@ -46,8 +46,8 @@ export default class RendererStore {
     }, {} as { [propName: string]: Component })
   }
 
-  public getDefaultValue(type: string) {
-    const render = this.get(type)
+  public getDefaultValue(options: Schema) {
+    const render = this.get(options.type)
 
     if (!render) {
       return null
@@ -60,7 +60,7 @@ export default class RendererStore {
     }
 
     if (isFunction(value)) {
-      return value()
+      return value(options)
     }
 
     return value

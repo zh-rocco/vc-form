@@ -20,12 +20,26 @@ class VcCheckbox extends ConnectMixin {
     console.log('render checkbox:', this.options.name)
     const { placeholder, clearable, options } = this.options
 
+    if (!Array.isArray(options)) return
+
+    if (options.length > 1) {
+      return (
+        <el-checkbox-group
+          vModel={this.localValue}
+        >
+          {this.renderChildren(options)}
+        </el-checkbox-group>
+      )
+    }
+
+    const [{ name }] = options
+
     return (
-      <el-checkbox-group
+      <el-checkbox
         vModel={this.localValue}
       >
-        {this.renderChildren(options)}
-      </el-checkbox-group>
+        {name}
+      </el-checkbox>
     )
   }
 }
@@ -34,7 +48,7 @@ const options: RendererOptions = {
   name: 'vc-checkbox',
   description: '多选',
   component: VcCheckbox,
-  value: () => []
+  value: ({ options }) => options.length > 1 ? [] : false
 }
 
 export default options

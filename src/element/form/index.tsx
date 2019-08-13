@@ -33,9 +33,10 @@ class FormRenderer extends Vue {
   genFormModel(schema: Schema) {
     const { model, $set } = this
 
-    walk(schema, ({ type, name, value }) => {
+    walk(schema, (options) => {
+      const { name, value } = options
       if (name && this.model[name] === undefined) {
-        const _value = value === undefined ? rendererStore.getDefaultValue(type) : value
+        const _value = value === undefined ? rendererStore.getDefaultValue(options) : value
         $set(model, name, _value)
       }
     })

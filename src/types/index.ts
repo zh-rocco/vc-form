@@ -45,12 +45,15 @@ export declare class RendererComponent extends Vue {
   [propsName: string]: any
 }
 
+type _RendererValueType = null | boolean | number | string | PlainObject
+type RendererValueType = _RendererValueType | _RendererValueType[]
+
 /** Renderer Options */
 export interface RendererOptions extends PlainObject {
   name: string
   description?: string
   component: any
-  value?: any
+  value?: RendererValueType | ((options: Schema) => RendererValueType)
 }
 
 export type DirectiveHandler = (el: Element | HTMLElement, binding: string | boolean | undefined, vm: Vue | any) => void
