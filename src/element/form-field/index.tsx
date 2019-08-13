@@ -2,7 +2,7 @@ import { Component } from 'vue-property-decorator'
 import { directiveStore } from '@/lib/directives'
 import ConnectMixin from '../connect'
 import { evalExpression } from '../utils'
-import { RendererOptions } from '@/types'
+import { FormItemProps, RendererOptions } from '@/types'
 
 @Component
 class FormField extends ConnectMixin {
@@ -22,6 +22,11 @@ class FormField extends ConnectMixin {
     return true
   }
 
+  genFormItemKey(schema: FormItemProps) {
+    const { name, controls = [] } = schema
+    return name || controls.map(({ name }) => name).filter(name => name).join('@')
+  }
+
   private runDirectives() {
     for (const [name, directive] of Object.entries(directiveStore.getAllDirectives())) {
       const value = this.options[name]
@@ -32,13 +37,23 @@ class FormField extends ConnectMixin {
 
   render() {
     console.log('render form field:', this.options.type, this.options.name)
-    const { placeholder, clearable, visibleOn } = this.options
 
-    if (!this.canVisible(visibleOn)) return
+    if (!this.canVisible(this.options.visibleOn)) return
+
+    const { label, name, rules, controls, style } = this.options
+    const hasChildren = Array.isArray(controls) && controls.length
+    const isRequired = controls && controls.some(({ rules }) => {
+      return rules && rules.some(({ required }) => required)
+    })
 
     return (
       <el-form-item
+        key={this.genFormItemKey(this.options)}
+        label={label}
+        prop={hasChildren ? undefined : name}
+        rules={isRequired ? rules || { required: true } : rules}
         attrs={{ ...this.$attrs }}
+        class={hasChildren ? 'nested' : undefined}
       >
         {this.$slots.default}
       </el-form-item>
@@ -49,8 +64,7 @@ class FormField extends ConnectMixin {
 const options: RendererOptions = {
   name: 'vc-form-field',
   description: '表单项',
-  component: FormField,
-  value: 0
+  component: FormField
 }
 
 export default options

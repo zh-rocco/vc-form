@@ -7,6 +7,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import FormRenderer from '@/element/form'
+// import FormRenderer from '@/element/f'
 
 @Component({
   components: {
@@ -33,7 +34,8 @@ export default class App extends Vue {
         clearable: true,
         autoFocus: true,
         rules: [
-          { required: true, message: '请输入活动名称', trigger: 'change' }
+          { required: true, message: '请输入活动名称', trigger: 'change' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'change' }
         ]
       },
 
@@ -61,7 +63,7 @@ export default class App extends Vue {
             type: 'vc-date',
             clearable: true,
             rules: [
-              { required: true, message: '请选择活动日期', trigger: 'change' }
+              { required: true, message: '请选择日期', trigger: 'change' }
             ]
           },
           {
@@ -69,7 +71,7 @@ export default class App extends Vue {
             type: 'vc-time',
             clearable: true,
             rules: [
-              { required: true, message: '请选择活动时间', trigger: 'change' }
+              { required: true, message: '请选择时间', trigger: 'change' }
             ]
           }
         ]
@@ -90,6 +92,9 @@ export default class App extends Vue {
           { name: '地推活动' },
           { name: '线下主题活动' },
           { name: '单纯品牌曝光' }
+        ],
+        rules: [
+          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
         ]
       },
 
@@ -97,10 +102,12 @@ export default class App extends Vue {
         name: 'resource',
         label: '特殊资源',
         type: 'vc-radio',
-        value: '线上品牌商赞助',
         options: [
           { name: '线上品牌商赞助' },
           { name: '线下场地免费' }
+        ],
+        rules: [
+          { required: true, message: '请选择活动资源', trigger: 'change' }
         ]
       },
 
@@ -108,7 +115,10 @@ export default class App extends Vue {
         name: 'desc',
         label: '活动形式',
         type: 'vc-textarea',
-        clearable: true
+        clearable: true,
+        rules: [
+          { required: true, message: '请填写活动形式', trigger: 'blur' }
+        ]
       },
 
       {

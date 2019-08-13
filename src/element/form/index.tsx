@@ -41,11 +41,6 @@ class FormRenderer extends Vue {
     })
   }
 
-  genFormItemKey(schema: Schema) {
-    const { name, controls = [] } = schema
-    return name || controls.map(({ name }) => name).filter(name => name).join('@')
-  }
-
   renderFormItem(schema: Schema) {
     const { type, label, name, rules, controls, style } = schema
     const Tag = rendererStore.getRenderer(type) || type
@@ -56,12 +51,7 @@ class FormRenderer extends Vue {
 
     return (
       <FormField.component
-        key={this.genFormItemKey(schema)}
-        label={label}
-        prop={hasChildren ? undefined : name}
-        rules={isRequired ? rules || { required: isRequired } : rules}
         options={schema}
-        class={hasChildren ? 'nested' : undefined}
       >
         <Tag
           options={schema}

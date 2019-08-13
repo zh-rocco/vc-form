@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import { cloneDeep, pickBy } from 'lodash'
 import { Component, Prop } from 'vue-property-decorator'
-import _Renderer from '@/element/renderer'
+import BaseRenderer from '@/element/renderer'
 import FormField from '@/element/form-field'
 import ConnectMixin from '../connect'
 import { RendererOptions, PlainObject } from '@/types'
 
-const Renderer: any = Vue.extend(_Renderer)
+const Renderer: any = Vue.extend(BaseRenderer)
 
 // 生成随机字符串 (length <= 10)
 function getRandomString(length = 10) {
@@ -82,8 +82,6 @@ class VcCombo extends ConnectMixin {
 
       return (
         <FormField.component
-          prop={path}
-          rules={rules}
           options={_options}
         >
           <Renderer
