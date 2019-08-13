@@ -3,7 +3,7 @@ import ConnectMixin from '../connect'
 import { RendererOptions } from '@/types'
 
 @Component
-class VcSwitch extends ConnectMixin {
+class SwitchControl extends ConnectMixin {
   render() {
     console.log('render switch:', this.options.name)
     const { placeholder, clearable, disabled } = this.options
@@ -18,9 +18,9 @@ class VcSwitch extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-switch',
+  name: 'switch',
   description: '开关',
-  component: VcSwitch,
+  component: SwitchControl,
   value: false
 }
 

@@ -19,7 +19,7 @@ export default class App extends Vue {
   private selected: boolean = false;
 
   private options = {
-    type: 'vc-form',
+    type: 'form',
     style: {
       // width: '600px',
       'user-select': 'none'
@@ -29,7 +29,7 @@ export default class App extends Vue {
       {
         name: 'name',
         label: '活动名称',
-        type: 'vc-text',
+        type: 'text',
         placeholder: '请输入活动名称',
         clearable: true,
         rules: [
@@ -41,7 +41,7 @@ export default class App extends Vue {
       {
         name: 'region',
         label: '活动区域',
-        type: 'vc-select',
+        type: 'select',
         placeholder: '请输选择活动区域',
         clearable: true,
         options: [
@@ -59,7 +59,7 @@ export default class App extends Vue {
         controls: [
           {
             name: 'date',
-            type: 'vc-date',
+            type: 'date',
             clearable: true,
             rules: [
               { required: true, message: '请选择日期', trigger: 'change' }
@@ -67,7 +67,7 @@ export default class App extends Vue {
           },
           {
             name: 'time',
-            type: 'vc-time',
+            type: 'time',
             clearable: true,
             rules: [
               { required: true, message: '请选择时间', trigger: 'change' }
@@ -79,13 +79,13 @@ export default class App extends Vue {
       {
         name: 'delivery',
         label: '即时配送',
-        type: 'vc-switch'
+        type: 'switch'
       },
 
       {
         name: 'type',
         label: '活动性质',
-        type: 'vc-checkbox',
+        type: 'checkbox',
         options: [
           { name: '美食/餐厅线上活动' },
           { name: '地推活动' },
@@ -100,7 +100,7 @@ export default class App extends Vue {
       {
         name: 'resource',
         label: '特殊资源',
-        type: 'vc-radio',
+        type: 'radio',
         options: [
           { name: '线上品牌商赞助' },
           { name: '线下场地免费' }
@@ -113,7 +113,7 @@ export default class App extends Vue {
       {
         name: 'desc',
         label: '活动形式',
-        type: 'vc-textarea',
+        type: 'textarea',
         clearable: true,
         rules: [
           { required: true, message: '请填写活动形式', trigger: 'blur' }
@@ -123,18 +123,18 @@ export default class App extends Vue {
       {
         name: 'rate',
         label: '评分',
-        type: 'vc-rate'
+        type: 'rate'
       },
 
       {
         name: 'switch1',
         label: '展示',
-        type: 'vc-switch'
+        type: 'switch'
       },
       {
         name: 'switch1_control',
         label: '联动隐藏',
-        type: 'vc-text',
+        type: 'text',
         placeholder: '点击 "展示开关" 隐藏',
         clearable: true,
         visibleOn: '$model.switch1 === true'
@@ -143,12 +143,12 @@ export default class App extends Vue {
       {
         name: 'switch2',
         label: '禁用',
-        type: 'vc-switch'
+        type: 'switch'
       },
       {
         name: 'switch2_control',
         label: '联动禁用',
-        type: 'vc-text',
+        type: 'text',
         placeholder: '点击 "禁用开关" 禁用',
         clearable: true,
         disabledOn: '$model.switch2 === true'
@@ -157,7 +157,7 @@ export default class App extends Vue {
       {
         name: 'combo',
         label: '组合',
-        type: 'vc-combo',
+        type: 'combo',
         max: 50,
         min: 1,
         inline: true,
@@ -165,7 +165,7 @@ export default class App extends Vue {
           {
             name: 'name',
             // label: '客户姓名',
-            type: 'vc-text',
+            type: 'text',
             placeholder: '请输入客户的姓名',
             clearable: true,
             rules: [
@@ -175,7 +175,7 @@ export default class App extends Vue {
           {
             name: 'telephone',
             // label: '移动电话',
-            type: 'vc-text',
+            type: 'text',
             placeholder: '请输入客户的移动电话',
             clearable: true,
             rules: [
@@ -194,7 +194,7 @@ export default class App extends Vue {
           {
             name: 'region',
             // label: '活动区域',
-            type: 'vc-select',
+            type: 'select',
             placeholder: '请输选择活动区域',
             clearable: true,
             options: [
@@ -211,7 +211,7 @@ export default class App extends Vue {
       {
         name: 'username',
         label: '用户名',
-        type: 'vc-text',
+        type: 'text',
         placeholder: '请输入用户名',
         clearable: true,
         autoFocus: true,
@@ -222,7 +222,7 @@ export default class App extends Vue {
       {
         name: 'password',
         label: '密码',
-        type: 'vc-password',
+        type: 'password',
         placeholder: '请输入密码',
         clearable: true,
         rules: [
@@ -231,7 +231,7 @@ export default class App extends Vue {
       },
       {
         name: 'save_username',
-        type: 'vc-checkbox',
+        type: 'checkbox',
         options: [
           { name: '记住用户名' }
         ]

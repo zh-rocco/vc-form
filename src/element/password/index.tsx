@@ -3,7 +3,7 @@ import ConnectMixin from '../connect'
 import { RendererOptions } from '@/types'
 
 @Component
-class VcPassword extends ConnectMixin {
+class PasswordControl extends ConnectMixin {
   render() {
     console.log('render password:', this.options.name)
     const { placeholder, clearable } = this.options
@@ -22,9 +22,9 @@ class VcPassword extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-password',
+  name: 'password',
   description: '密码框',
-  component: VcPassword
+  component: PasswordControl
 }
 
 export default options

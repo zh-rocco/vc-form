@@ -3,7 +3,7 @@ import ConnectMixin from '../connect'
 import { RendererOptions } from '@/types'
 
 @Component
-class VcDate extends ConnectMixin {
+class DateControl extends ConnectMixin {
   render() {
     console.log('render date:', this.options.name)
     const { placeholder, clearable } = this.options
@@ -19,9 +19,9 @@ class VcDate extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-date',
+  name: 'date',
   description: '日期',
-  component: VcDate
+  component: DateControl
 }
 
 export default options

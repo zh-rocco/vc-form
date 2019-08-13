@@ -1,18 +1,19 @@
+import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import ConnectMixin from '../connect'
-import SelectDriver from '@/components/SelectDriver.vue'
+import _SelectDriver from './SelectDriver.vue'
 import { RendererOptions } from '@/types'
 
-@Component({
-  components: { SelectDriver }
-})
-class VcSelect extends ConnectMixin {
+const SelectDriver: any = Vue.extend(_SelectDriver)
+
+@Component
+class SelectControl extends ConnectMixin {
   render() {
     console.log('render select:', this.options.name)
     const { placeholder, clearable, options = [] } = this.options
 
     return (
-      <select-driver
+      <SelectDriver
         vModel={this.localValue}
         data={options}
         placeholder={placeholder}
@@ -22,9 +23,9 @@ class VcSelect extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-select',
+  name: 'select',
   description: '下拉选择器',
-  component: VcSelect
+  component: SelectControl
 }
 
 export default options

@@ -3,7 +3,7 @@ import ConnectMixin from '../connect'
 import { RendererOptions } from '@/types'
 
 @Component
-class VcText extends ConnectMixin {
+class TextControl extends ConnectMixin {
   render() {
     console.log('render text:', this.options.name)
     const { placeholder, clearable } = this.options
@@ -20,9 +20,9 @@ class VcText extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-text',
+  name: 'text',
   description: '文本框',
-  component: VcText
+  component: TextControl
 }
 
 export default options

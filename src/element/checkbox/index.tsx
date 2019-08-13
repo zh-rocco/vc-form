@@ -3,7 +3,7 @@ import ConnectMixin from '../connect'
 import { RendererOptions, SchemaOption } from '@/types'
 
 @Component
-class VcCheckbox extends ConnectMixin {
+class CheckboxControl extends ConnectMixin {
   private renderChildren(options: SchemaOption[]) {
     return options.map(({ name, value = name }) => {
       return (
@@ -45,9 +45,9 @@ class VcCheckbox extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-checkbox',
+  name: 'checkbox',
   description: '多选',
-  component: VcCheckbox,
+  component: CheckboxControl,
   value: ({ options }) => options.length > 1 ? [] : false
 }
 

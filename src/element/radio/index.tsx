@@ -3,7 +3,7 @@ import ConnectMixin from '../connect'
 import { RendererOptions, SchemaOption } from '@/types'
 
 @Component
-class VcRadio extends ConnectMixin {
+class RadioControl extends ConnectMixin {
   private renderChildren(options: SchemaOption[]) {
     return options.map(({ name, value = name }) => {
       return (
@@ -31,9 +31,9 @@ class VcRadio extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-radio',
+  name: 'radio',
   description: '单选',
-  component: VcRadio
+  component: RadioControl
 }
 
 export default options

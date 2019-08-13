@@ -3,7 +3,7 @@ import ConnectMixin from '../connect'
 import { RendererOptions } from '@/types'
 
 @Component
-class VcTime extends ConnectMixin {
+class TimeControl extends ConnectMixin {
   render() {
     console.log('render time:', this.options.name)
     const { placeholder, clearable } = this.options
@@ -18,9 +18,9 @@ class VcTime extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-time',
+  name: 'time',
   description: '时间',
-  component: VcTime
+  component: TimeControl
 }
 
 export default options

@@ -3,7 +3,7 @@ import ConnectMixin from '../connect'
 import { RendererOptions } from '@/types'
 
 @Component
-class VcTextarea extends ConnectMixin {
+class TextareaControl extends ConnectMixin {
   render() {
     console.log('render textarea:', this.options.name)
     const { placeholder, clearable } = this.options
@@ -21,9 +21,9 @@ class VcTextarea extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-textarea',
+  name: 'textarea',
   description: '文本框',
-  component: VcTextarea
+  component: TextareaControl
 }
 
 export default options

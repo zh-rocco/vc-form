@@ -16,7 +16,7 @@ function getRandomString(length = 10) {
 }
 
 @Component
-class VcCombo extends ConnectMixin {
+class ComboControl extends ConnectMixin {
   private keys: string[] = []
 
   private get controls() {
@@ -150,9 +150,9 @@ class VcCombo extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-combo',
+  name: 'combo',
   description: '可增删组件',
-  component: VcCombo,
+  component: ComboControl,
   value: () => []
 }
 

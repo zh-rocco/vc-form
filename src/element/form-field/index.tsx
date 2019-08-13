@@ -62,7 +62,7 @@ class FormField extends ConnectMixin {
 }
 
 const options: RendererOptions = {
-  name: 'vc-form-field',
+  name: 'form-field',
   description: '表单项',
   component: FormField
 }
