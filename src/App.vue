@@ -93,7 +93,12 @@ export default class App extends Vue {
           { name: '单纯品牌曝光' }
         ],
         rules: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+          {
+            type: 'array',
+            required: true,
+            message: '请至少选择一个活动性质',
+            trigger: 'change'
+          }
         ]
       },
 
@@ -101,10 +106,7 @@ export default class App extends Vue {
         name: 'resource',
         label: '特殊资源',
         type: 'radio',
-        options: [
-          { name: '线上品牌商赞助' },
-          { name: '线下场地免费' }
-        ],
+        options: [{ name: '线上品牌商赞助' }, { name: '线下场地免费' }],
         rules: [
           { required: true, message: '请选择活动资源', trigger: 'change' }
         ]
@@ -115,9 +117,11 @@ export default class App extends Vue {
         label: '活动形式',
         type: 'textarea',
         clearable: true,
-        rules: [
-          { required: true, message: '请填写活动形式', trigger: 'blur' }
-        ]
+        rules: [{ required: true, message: '请填写活动形式', trigger: 'blur' }]
+      },
+
+      {
+        type: 'divider'
       },
 
       {
@@ -143,7 +147,8 @@ export default class App extends Vue {
       {
         name: 'switch2',
         label: '禁用',
-        type: 'switch'
+        type: 'switch',
+        value: true
       },
       {
         name: 'switch2_control',
@@ -152,6 +157,10 @@ export default class App extends Vue {
         placeholder: '点击 "禁用开关" 禁用',
         clearable: true,
         disabledOn: '$model.switch2 === true'
+      },
+
+      {
+        type: 'divider'
       },
 
       {
@@ -209,15 +218,17 @@ export default class App extends Vue {
       },
 
       {
+        type: 'divider'
+      },
+
+      {
         name: 'username',
         label: '用户名',
         type: 'text',
         placeholder: '请输入用户名',
         clearable: true,
         autoFocus: true,
-        rules: [
-          { required: true, message: '请输入用户名', trigger: 'change' }
-        ]
+        rules: [{ required: true, message: '请输入用户名', trigger: 'change' }]
       },
       {
         name: 'password',
@@ -225,16 +236,12 @@ export default class App extends Vue {
         type: 'password',
         placeholder: '请输入密码',
         clearable: true,
-        rules: [
-          { required: true, message: '请输入密码', trigger: 'change' }
-        ]
+        rules: [{ required: true, message: '请输入密码', trigger: 'change' }]
       },
       {
         name: 'save_username',
         type: 'checkbox',
-        options: [
-          { name: '记住用户名' }
-        ]
+        options: [{ name: '记住用户名' }]
       }
     ],
     actions: [

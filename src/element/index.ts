@@ -12,6 +12,7 @@ import CheckboxControl from '@/element/checkbox'
 import SwitchControl from '@/element/switch'
 import ColumnLayout from '@/element/layout/column'
 import InlineLayout from '@/element/layout/inline'
+import Divider from '@/element/divider'
 
 export default {
   FormField,
@@ -27,5 +28,6 @@ export default {
   CheckboxControl,
   SwitchControl,
   ColumnLayout,
-  InlineLayout
+  InlineLayout,
+  Divider
 }

@@ -4,7 +4,7 @@ import { PlainObject, Schema } from '@/types'
 
 export const OptionsControl = (config: PlainObject) => {
   console.log('OptionsControl', config)
-  return function (component: Component): any {
+  return function(component: Component): any {
     console.log('OptionsControl', { ...config, component })
     return { ...config, component }
   }
@@ -12,39 +12,45 @@ export const OptionsControl = (config: PlainObject) => {
 
 // export const OptionsControl = (config: PlainObject) => (component: Component) => ({ ...config, component })
 
-/** 深度遍历 schema */
-export const walk = (schema: Schema, cb?: (schema: Schema) => void) => {
-  const { controls } = schema
+type WalkCallback = (schema: Schema, parent: Schema | null) => void
 
+const recursive = (current: Schema, cb?: WalkCallback, parent: Schema | null = null) => {
   if (isFunction(cb)) {
-    cb(schema)
+    cb(current, parent)
   }
+
+  const { controls } = current
 
   if (isArray(controls)) {
     for (const control of controls) {
-      walk(control, cb)
+      recursive(control, cb, current)
     }
   }
+}
+
+/** 深度遍历 schema */
+export const walk = (schema: Schema, cb?: WalkCallback) => {
+  recursive(schema, cb)
 }
 
 export const getStyle = (styleObject: PlainObject | undefined) => {
   if (typeof styleObject !== 'object') return
 
   return Object.entries(styleObject)
-    .reduce((styleArray, [k, v]) => {
-      styleArray.push(`${k}: ${v}`)
-      return styleArray
-    }, [] as string[])
+    .reduce(
+      (styleArray, [k, v]) => {
+        styleArray.push(`${k}: ${v}`)
+        return styleArray
+      },
+      [] as string[]
+    )
     .join('; ')
 }
 
 export function evalExpression(expression: string, data?: PlainObject): boolean {
   try {
     // eslint-disable-next-line
-    const fn = new Function(
-      '$model',
-      `return !!(${expression})`
-    )
+    const fn = new Function("$model", `return !!(${expression})`);
     data = data || {}
     return fn.call(data, data)
   } catch (e) {
