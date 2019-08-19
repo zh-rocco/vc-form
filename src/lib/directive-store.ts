@@ -1,15 +1,15 @@
-import { DirectiveHandler, DirectiveOptions } from '@/types'
+import { DirectiveHandler, DirectiveOpts } from '@/types'
 
 export default class DirectiveStore {
   private store!: {
-    [propName: string]: DirectiveOptions
+    [propName: string]: DirectiveOpts
   }
 
   constructor() {
     this.store = {}
   }
 
-  public register(options: DirectiveOptions) {
+  public register(options: DirectiveOpts) {
     this.store[options.name] = options
   }
 

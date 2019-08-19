@@ -6,26 +6,56 @@ const directiveStore = new DirectiveStore()
 directiveStore.register({
   name: 'visibleOn',
   description: '通过表达式来配置当前表单项的展示状态。',
-  directive(el, binding, vm) {
-    console.log('visibleOn', el, binding, vm)
-    const { formModel: model } = vm
+  directive() {
+    return {
+      inserted(el, binding, vnode, oldVnode) {
+        console.log('~!@#$', 'inserted', 'visibleOn', binding)
+        const vm = vnode.context
+        const { formModel: model } = vm as any
 
-    let isVisible = true
+        let isVisible = true
 
-    if (binding === undefined) {
-      isVisible = true
-    }
+        if (binding === undefined) {
+          isVisible = true
+        }
 
-    if (typeof binding === 'boolean') {
-      isVisible = binding
-    }
+        if (typeof binding === 'boolean') {
+          isVisible = binding
+        }
 
-    if (typeof binding === 'string') {
-      isVisible = evalExpression(binding, model)
-    }
+        if (typeof binding === 'string') {
+          isVisible = evalExpression(binding, model)
+        }
 
-    if (!isVisible) {
-      (el.parentNode as HTMLElement).removeChild(el)
+        if (!isVisible) {
+          console.log('*', 'inserted')
+          // (el.parentNode as HTMLElement).removeChild(el)
+        }
+      },
+      update(el, binding, vnode, oldVnode) {
+        console.log('~!@#$', 'update', 'visibleOn', binding)
+        const vm = vnode.context
+        const { formModel: model } = vm as any
+
+        let isVisible = true
+
+        if (binding === undefined) {
+          isVisible = true
+        }
+
+        if (typeof binding === 'boolean') {
+          isVisible = binding
+        }
+
+        if (typeof binding === 'string') {
+          isVisible = evalExpression(binding, model)
+        }
+
+        if (!isVisible) {
+          console.log('*', 'update')
+          // (el.parentNode as HTMLElement).removeChild(el)
+        }
+      }
     }
   }
 })
@@ -33,14 +63,18 @@ directiveStore.register({
 directiveStore.register({
   name: 'autoFocus',
   description: '自动聚焦。',
-  directive(el, binding, vm) {
-    console.log('autoFocus', el, binding, vm)
-    const $input = el.querySelector('input')
+  directive() {
+    return {
+      inserted(el, binding, vnode, oldVnode) {
+        console.log('~!@#$', 'autoFocus', binding, vnode)
+        const $input = el.querySelector('input')
 
-    if ($input) {
-      setTimeout(() => {
-        $input.focus()
-      }, 0)
+        if ($input) {
+          setTimeout(() => {
+            $input.focus()
+          }, 0)
+        }
+      }
     }
   }
 })

@@ -11,8 +11,17 @@ console.log(Button)
 
 console.log(rendererStore.getAllComponents())
 console.log(directiveStore.getAllDirectives())
+const d = Object.entries(directiveStore.getAllDirectives())
+  .reduce((acc: any, [key, directive]) => {
+    acc[key] = directive()
+    return acc
+  }, {})
 
-@Component
+console.log(d)
+
+@Component({
+  directives: d
+})
 class FormRenderer extends Vue {
   $refs!: {
     form: HTMLFormElement
@@ -114,6 +123,10 @@ class FormRenderer extends Vue {
   render() {
     console.log('render form')
 
+    const directives = [
+      { name: 'autoFocus', value: this.options.autoFocus }
+    ]
+
     return (
       <el-form
         ref="form"
@@ -123,6 +136,7 @@ class FormRenderer extends Vue {
         label-position="right"
         props={{ model: this.model }}
         attrs={{ ...this.options, style: getStyle(this.options.style) }}
+        {...{ directives }}
       >
         {this.renderFormItems(this.options.controls)}
         {this.renderFormActions(this.options.actions)}

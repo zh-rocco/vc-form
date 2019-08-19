@@ -63,7 +63,7 @@ export default class ConnectMixin extends Vue {
     }
   }
 
-  public mounted() {
-    this._autoFocus()
-  }
+  // public mounted() {
+  //   this._autoFocus()
+  // }
 }

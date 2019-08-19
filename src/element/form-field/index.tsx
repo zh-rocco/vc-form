@@ -4,7 +4,15 @@ import ConnectMixin from '../connect'
 import { evalExpression } from '../utils'
 import { FormFieldProps, RendererOptions } from '@/types'
 
-@Component
+const d = Object.entries(directiveStore.getAllDirectives())
+  .reduce((acc: any, [key, directive]) => {
+    acc[key] = directive()
+    return acc
+  }, {})
+
+@Component({
+  directives: d
+})
 class FormField extends ConnectMixin {
   private canVisible(value: undefined | boolean | string) {
     if (value === undefined) {
@@ -27,16 +35,12 @@ class FormField extends ConnectMixin {
     return name || controls.map(({ name }) => name).filter(name => name).join('@')
   }
 
-  private runDirectives() {
-    for (const [name, directive] of Object.entries(directiveStore.getAllDirectives())) {
-      const value = this.options[name]
-      if (value === undefined) continue
-      directive(this.$el, value, this)
-    }
-  }
-
   render() {
     console.log('render form field:', this.options.type, this.options.name)
+
+    const directives = [
+      // { name: 'visibleOn', value: this.options.visibleOn }
+    ]
 
     if (!this.canVisible(this.options.visibleOn)) return
 
@@ -54,6 +58,7 @@ class FormField extends ConnectMixin {
         rules={isRequired ? rules || { required: true } : rules}
         attrs={{ ...this.$attrs }}
         class={hasChildren ? 'nested' : undefined}
+        {...{ directives }}
       >
         {this.$slots.default}
       </el-form-item>

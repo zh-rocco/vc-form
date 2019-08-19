@@ -2,6 +2,8 @@ import { Component } from 'vue-property-decorator'
 import ConnectMixin from '../connect'
 import { RendererOptions } from '@/types'
 
+import './style.less'
+
 @Component
 class Divider extends ConnectMixin {
   render() {

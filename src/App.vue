@@ -25,6 +25,7 @@ export default class App extends Vue {
       'user-select': 'none'
     },
     size: 'mini',
+    autoFocus: true,
     controls: [
       {
         name: 'name',
@@ -259,6 +260,10 @@ export default class App extends Vue {
       }
     ]
   };
+
+  mounted() {
+    console.log('App', this)
+  }
 }
 </script>
 

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { DirectiveOptions } from 'vue/types/options'
 
 export interface PlainObject {
   [propsName: string]: any
@@ -52,10 +53,11 @@ export interface RendererOptions extends PlainObject {
   value?: RendererValueType | ((options: Schema) => RendererValueType)
 }
 
-export type DirectiveHandler = (el: Element | HTMLElement, binding: string | boolean | undefined, vm: Vue | any) => void
+// export type DirectiveHandler = (el: Element | HTMLElement, binding: string | boolean | undefined, vm: Vue | any) => void
+export type DirectiveHandler = () => DirectiveOptions
 
 /** Directive Options */
-export interface DirectiveOptions extends PlainObject {
+export interface DirectiveOpts extends PlainObject {
   name: string
   description?: string
   directive: DirectiveHandler
