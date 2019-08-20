@@ -126,6 +126,15 @@ export default class App extends Vue {
       },
 
       {
+        name: 'slider',
+        label: '滑块',
+        type: 'slider',
+        step: 5,
+        showStops: true,
+        value: 50
+      },
+
+      {
         name: 'rate',
         label: '评分',
         type: 'rate'

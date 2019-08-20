@@ -10,6 +10,7 @@ import RateControl from '@/element/rate'
 import RadioControl from '@/element/radio'
 import CheckboxControl from '@/element/checkbox'
 import SwitchControl from '@/element/switch'
+import SliderControl from '@/element/slider'
 import ColumnLayout from '@/element/layout/column'
 import InlineLayout from '@/element/layout/inline'
 import Divider from '@/element/divider'
@@ -27,6 +28,7 @@ export default {
   RadioControl,
   CheckboxControl,
   SwitchControl,
+  SliderControl,
   ColumnLayout,
   InlineLayout,
   Divider

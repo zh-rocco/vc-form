@@ -15,6 +15,10 @@ export default class ConnectMixin extends Vue {
     return this.formIns.$refs.form
   }
 
+  public get $model() {
+    return this.formModel
+  }
+
   public get prop() {
     return this.options.name
   }
@@ -29,8 +33,30 @@ export default class ConnectMixin extends Vue {
     }
   }
 
+  public isVisible: boolean = true
+
+  // public get isVisible() {
+  //   return this._isVisible(this.options.visibleOn)
+  // }
+
   public get isDisabled() {
     return this._isDisabled(this.options.disabledOn)
+  }
+
+  private _isVisible(value: undefined | boolean | string) {
+    if (value === undefined) {
+      return true
+    }
+
+    if (typeof value === 'boolean') {
+      return value
+    }
+
+    if (typeof value === 'string') {
+      return evalExpression(value, this.formModel)
+    }
+
+    return true
   }
 
   private _isDisabled(value: undefined | boolean | string) {

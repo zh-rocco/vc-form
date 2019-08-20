@@ -36,13 +36,19 @@ class FormField extends ConnectMixin {
   }
 
   render() {
+    if (!this.isVisible) return
+
     console.log('render form field:', this.options.type, this.options.name)
 
-    const directives = [
-      // { name: 'visibleOn', value: this.options.visibleOn }
-    ]
+    let directives: any[] = []
 
-    if (!this.canVisible(this.options.visibleOn)) return
+    if (this.options.visibleOn) {
+      directives = [
+        { name: 'visibleOn', value: this.options.visibleOn }
+      ]
+    }
+
+    // if (!this.canVisible(this.options.visibleOn)) return
 
     const { label, name, rules, controls, style } = this.options
     const hasChildren = Array.isArray(controls) && controls.length
