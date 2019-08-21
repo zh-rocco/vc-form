@@ -14,6 +14,7 @@ import SliderControl from '@/element/slider'
 import ColumnLayout from '@/element/layout/column'
 import InlineLayout from '@/element/layout/inline'
 import Divider from '@/element/divider'
+import StaticControl from '@/element/static'
 
 export default {
   FormField,
@@ -31,5 +32,6 @@ export default {
   SliderControl,
   ColumnLayout,
   InlineLayout,
-  Divider
+  Divider,
+  StaticControl
 }

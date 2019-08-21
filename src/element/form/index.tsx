@@ -1,8 +1,8 @@
 import { Component, Prop, Provide, Watch, Vue } from 'vue-property-decorator'
 import { rendererStore } from '@/lib/renderers'
-import { directiveStore } from '@/lib/directives'
+// import { directiveStore } from '@/lib/directives'
 import FormField from '@/element/form-field'
-import { walk, getStyle, evalExpression } from '../utils'
+import { walk, getStyle } from '../utils'
 import { PlainObject, Schema, FormAction } from '@/types'
 
 import { Button } from 'element-ui'
@@ -10,18 +10,9 @@ import { Button } from 'element-ui'
 console.log(Button)
 
 console.log(rendererStore.getAllComponents())
-console.log(directiveStore.getAllDirectives())
-const d = Object.entries(directiveStore.getAllDirectives())
-  .reduce((acc: any, [key, directive]) => {
-    acc[key] = directive()
-    return acc
-  }, {})
+// console.log(directiveStore.getAllDirectives())
 
-console.log(d)
-
-@Component({
-  directives: d
-})
+@Component
 class FormRenderer extends Vue {
   $refs!: {
     form: HTMLFormElement
@@ -123,10 +114,6 @@ class FormRenderer extends Vue {
   render() {
     console.log('render form')
 
-    const directives = [
-      { name: 'autoFocus', value: this.options.autoFocus }
-    ]
-
     return (
       <el-form
         ref="form"
@@ -136,7 +123,6 @@ class FormRenderer extends Vue {
         label-position="right"
         props={{ model: this.model }}
         attrs={{ ...this.options, style: getStyle(this.options.style) }}
-        {...{ directives }}
       >
         {this.renderFormItems(this.options.controls)}
         {this.renderFormActions(this.options.actions)}

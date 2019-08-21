@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import DirectiveStore from './directive-store'
 import { evalExpression } from '@/element/utils'
 import { PlainObject } from '@/types'
@@ -30,19 +29,15 @@ directiveStore.register({
         const vm = vnode.context as any
         const { $model } = vm
         const isVisible = judgeVisible(value, $model)
-        vm.isVisible = isVisible
+        vm.isVisible = isVisible;
 
-        vm.$_unwatches = (value.match(/\$model\.(\w+)/gi) || []).map((keyPath: string) => {
-          console.log('##', 'watch', keyPath)
-          console.log(vm)
-          return vm.$watch(keyPath, () => {
-            vm.isVisible = evalExpression(value, $model)
-            console.log('##', 'forceUpdate')
-            vm.$forceUpdate()
-          })
+        (value.match(/\$model\.(\w+)/gi) || []).forEach((keyPath: string) => {
+          if (!vm.watchers[keyPath]) {
+            vm.watchers[keyPath] = vm.$watch(keyPath, () => {
+              vm.isVisible = evalExpression(value, $model)
+            })
+          }
         })
-
-        console.log('~!@#$ ***', 'inserted', isVisible)
       }
     }
   }

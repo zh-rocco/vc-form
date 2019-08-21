@@ -25,7 +25,6 @@ export default class App extends Vue {
       'user-select': 'none'
     },
     size: 'mini',
-    autoFocus: true,
     controls: [
       {
         name: 'name',
@@ -170,6 +169,13 @@ export default class App extends Vue {
       },
 
       {
+        name: 'static',
+        label: '静态文本',
+        type: 'static',
+        value: '这是静态展示的值'
+      },
+
+      {
         type: 'divider'
       },
 
@@ -299,6 +305,10 @@ body {
     .el-form-item {
       display: inline-block;
       margin-right: 10px;
+    }
+
+    .form-field {
+      display: inline-block;
     }
   }
 }

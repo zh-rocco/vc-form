@@ -1,10 +1,10 @@
 import { Component } from 'vue'
 import { isFunction, isArray } from 'lodash'
-import { PlainObject, Schema } from '@/types'
+import { PlainObject, Schema, RendererOptions } from '@/types'
 
 export const OptionsControl = (config: PlainObject) => {
   console.log('OptionsControl', config)
-  return function(component: Component): any {
+  return function (component: Component): any {
     console.log('OptionsControl', { ...config, component })
     return { ...config, component }
   }
@@ -47,7 +47,7 @@ export const getStyle = (styleObject: PlainObject | undefined) => {
     .join('; ')
 }
 
-export function evalExpression(expression: string, data?: PlainObject): boolean {
+export const evalExpression = (expression: string, data?: PlainObject): boolean => {
   try {
     // eslint-disable-next-line
     const fn = new Function("$model", `return !!(${expression})`);
@@ -57,4 +57,8 @@ export function evalExpression(expression: string, data?: PlainObject): boolean 
     console.warn(e)
     return false
   }
+}
+
+export const typeConductionFunction = <T>(payload: T): T => {
+  return payload
 }

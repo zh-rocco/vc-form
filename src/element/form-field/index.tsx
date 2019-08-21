@@ -1,55 +1,15 @@
 import { Component } from 'vue-property-decorator'
-import { directiveStore } from '@/lib/directives'
 import ConnectMixin from '../connect'
-import { evalExpression } from '../utils'
 import { FormFieldProps, RendererOptions } from '@/types'
 
-const d = Object.entries(directiveStore.getAllDirectives())
-  .reduce((acc: any, [key, directive]) => {
-    acc[key] = directive()
-    return acc
-  }, {})
-
-@Component({
-  directives: d
-})
+@Component
 class FormField extends ConnectMixin {
-  private canVisible(value: undefined | boolean | string) {
-    if (value === undefined) {
-      return true
-    }
-
-    if (typeof value === 'boolean') {
-      return value
-    }
-
-    if (typeof value === 'string') {
-      return evalExpression(value, this.formModel)
-    }
-
-    return true
-  }
-
   genFormItemKey(schema: FormFieldProps) {
     const { name, controls = [] } = schema
     return name || controls.map(({ name }) => name).filter(name => name).join('@')
   }
 
-  render() {
-    if (!this.isVisible) return
-
-    console.log('render form field:', this.options.type, this.options.name)
-
-    let directives: any[] = []
-
-    if (this.options.visibleOn) {
-      directives = [
-        { name: 'visibleOn', value: this.options.visibleOn }
-      ]
-    }
-
-    // if (!this.canVisible(this.options.visibleOn)) return
-
+  renderFormField() {
     const { label, name, rules, controls, style } = this.options
     const hasChildren = Array.isArray(controls) && controls.length
     const isRequired = controls && controls.some(({ rules }) => {
@@ -58,17 +18,23 @@ class FormField extends ConnectMixin {
 
     return (
       <el-form-item
+        ref="formField"
         key={this.genFormItemKey(this.options)}
         label={label}
         prop={hasChildren ? undefined : name}
         rules={isRequired ? rules || { required: true } : rules}
         attrs={{ ...this.$attrs }}
         class={hasChildren ? 'nested' : undefined}
-        {...{ directives }}
       >
         {this.$slots.default}
       </el-form-item>
     )
+  }
+
+  render() {
+    console.log('render form field:', this.options.type, this.options.name)
+
+    return this.isVisible ? this.renderFormField() : undefined
   }
 }
 

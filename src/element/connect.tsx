@@ -1,5 +1,5 @@
 import { get, set } from 'lodash'
-import { Component, Prop, Inject, Vue } from 'vue-property-decorator'
+import { Component, Prop, Inject, Vue, Watch } from 'vue-property-decorator'
 import { evalExpression } from '@/element/utils'
 import { FormFieldProps } from '@/types'
 
@@ -10,6 +10,8 @@ export default class ConnectMixin extends Vue {
 
   @Prop({ default: null }) readonly value!: any
   @Prop({ type: Object, default: () => ({}) }) readonly options!: FormFieldProps
+
+  public watchers: { [propNames: string]: () => void } = {}
 
   public get formRef() {
     return this.formIns.$refs.form
@@ -33,14 +35,19 @@ export default class ConnectMixin extends Vue {
     }
   }
 
-  public isVisible: boolean = true
-
-  // public get isVisible() {
-  //   return this._isVisible(this.options.visibleOn)
-  // }
+  public get isVisible() {
+    return this._isVisible(this.options.visibleOn)
+  }
 
   public get isDisabled() {
     return this._isDisabled(this.options.disabledOn)
+  }
+
+  @Watch('isVisible')
+  public onVisibleChange(nv: boolean, ov: boolean) {
+    if (!nv && this.$refs.formField) {
+      (this.$refs.formField as HTMLFormElement).resetField()
+    }
   }
 
   private _isVisible(value: undefined | boolean | string) {
@@ -89,7 +96,13 @@ export default class ConnectMixin extends Vue {
     }
   }
 
-  // public mounted() {
-  //   this._autoFocus()
-  // }
+  public mounted() {
+    this._autoFocus()
+  }
+
+  public beforeDestroy() {
+    Object.values(this.watchers).forEach((unwatch) => {
+      unwatch()
+    })
+  }
 }

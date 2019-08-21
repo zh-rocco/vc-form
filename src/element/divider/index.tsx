@@ -5,7 +5,7 @@ import { RendererOptions } from '@/types'
 import './style.less'
 
 @Component
-class Divider extends ConnectMixin {
+class DividerControl extends ConnectMixin {
   render() {
     console.log('render divider')
 
@@ -18,7 +18,7 @@ class Divider extends ConnectMixin {
 const options: RendererOptions = {
   name: 'divider',
   description: '分割线',
-  component: Divider
+  component: DividerControl
 }
 
 export default options
