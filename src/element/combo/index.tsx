@@ -1,15 +1,13 @@
-import Vue from 'vue'
 import { cloneDeep, pickBy } from 'lodash'
-import { Component, Prop } from 'vue-property-decorator'
-import BaseRenderer from '@/element/renderer'
+import { Component } from 'vue-property-decorator'
+import Renderer from '@/element/renderer'
 import FormField from '@/element/form-field'
+import { typeConductionFunction } from '../utils'
 import ConnectMixin from '../connect'
-import { RendererOptions, PlainObject } from '@/types'
-
-const Renderer: any = Vue.extend(BaseRenderer)
+import { RendererOptions } from '@/types'
 
 // 生成随机字符串 (length <= 10)
-function getRandomString(length = 10) {
+function genRandomString(length = 10) {
   return Math.random()
     .toString(36)
     .substr(2, Math.min(length, 10))
@@ -58,7 +56,7 @@ class ComboControl extends ConnectMixin {
     if (this.length >= this.max) return
 
     this.localValue.push(cloneDeep(this.dataStructure))
-    this.keys.push(getRandomString())
+    this.keys.push(genRandomString())
   }
 
   // 删除 combo-item
@@ -149,11 +147,9 @@ class ComboControl extends ConnectMixin {
   }
 }
 
-const options: RendererOptions = {
+export default typeConductionFunction<RendererOptions<typeof ComboControl>>({
   name: 'combo',
   description: '可增删组件',
   component: ComboControl,
   value: () => []
-}
-
-export default options
+})

@@ -1,33 +1,37 @@
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { VNode } from 'vue'
+import * as tsx from 'vue-tsx-support'
+import p from 'vue-strict-prop'
 import { rendererStore } from '@/lib/renderers'
 import { Schema } from '@/types'
 
-@Component
-export default class Renderer extends Vue {
-  @Prop({ type: Object, default: () => ({}) }) readonly options!: Schema
+export default tsx.componentFactory.create({
+  props: {
+    options: p.ofType<Schema>().required
+  },
 
-  renderChild(schema: Schema) {
-    const { type, label, name, rules, controls, style } = schema
-    const Tag = rendererStore.getRenderer(type) || type
+  methods: {
+    renderChild(schema: Schema) {
+      const { type, label, name, rules, controls, style } = schema
+      const Tag = rendererStore.getRenderer(type) || type
 
-    return (
-      <Tag
-        attrs={this.$attrs}
-        on={this.$listeners}
-        options={schema}
-      >
-        {this.renderChildren(controls)}
-      </Tag >
-    )
-  }
+      return (
+        <Tag
+          attrs={this.$attrs}
+          on={this.$listeners}
+          options={schema}
+        >
+          {this.renderChildren(controls)}
+        </Tag >
+      )
+    },
+    renderChildren(schemas: Schema[] = []) {
+      return schemas.map(schema => this.renderChild(schema))
+    }
+  },
 
-  renderChildren(schemas: Schema[] = []) {
-    return schemas.map(schema => this.renderChild(schema))
-  }
-
-  render() {
+  render(): VNode {
     console.log('*', 'Tag', this.options.type)
 
     return this.renderChild(this.options)
   }
-}
+})

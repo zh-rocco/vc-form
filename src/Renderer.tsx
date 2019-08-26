@@ -16,6 +16,71 @@ export default class Renderer extends Vue {
     size: 'mini',
     controls: [
       {
+        type: 'divider'
+      },
+
+      {
+        name: 'combo',
+        label: '组合',
+        type: 'combo',
+        max: 50,
+        min: 0,
+        inline: true,
+        value: [
+          { name: '123', telephone: '13312341234' }
+        ],
+        controls: [
+          {
+            name: 'name',
+            // label: '客户姓名',
+            type: 'text',
+            placeholder: '请输入客户的姓名',
+            clearable: true,
+            rules: [
+              { required: true, message: '请输入客户的姓名', trigger: 'blur' }
+            ]
+          },
+          {
+            name: 'telephone',
+            // label: '移动电话',
+            type: 'text',
+            placeholder: '请输入客户的移动电话',
+            clearable: true,
+            rules: [
+              {
+                required: true,
+                message: '请输入客户的移动电话',
+                trigger: 'change'
+              },
+              {
+                pattern: /^1[3-9]\d{9}$/,
+                message: '请输入合法的移动电话',
+                trigger: 'change'
+              }
+            ]
+          },
+          {
+            name: 'region',
+            // label: '活动区域',
+            type: 'select',
+            placeholder: '请输选择活动区域',
+            clearable: true,
+            options: [
+              { name: '区域一', value: 'shanghai' },
+              { name: '区域二', value: 'beijing' }
+            ],
+            rules: [
+              { required: true, message: '请输选择活动区域', trigger: 'change' }
+            ]
+          }
+        ]
+      },
+
+      {
+        type: 'divider'
+      },
+
+      {
         name: 'name',
         label: '活动名称',
         type: 'text',
@@ -169,75 +234,12 @@ export default class Renderer extends Vue {
       },
 
       {
-        name: 'combo',
-        label: '组合',
-        type: 'combo',
-        max: 50,
-        min: 0,
-        inline: true,
-        value: [
-          { name: '123', telephone: '13312341234' },
-          { name: '123', telephone: '13312341234' },
-          { name: '123', telephone: '13312341234' }
-        ],
-        controls: [
-          {
-            name: 'name',
-            // label: '客户姓名',
-            type: 'text',
-            placeholder: '请输入客户的姓名',
-            clearable: true,
-            rules: [
-              { required: true, message: '请输入客户的姓名', trigger: 'blur' }
-            ]
-          },
-          {
-            name: 'telephone',
-            // label: '移动电话',
-            type: 'text',
-            placeholder: '请输入客户的移动电话',
-            clearable: true,
-            rules: [
-              {
-                required: true,
-                message: '请输入客户的移动电话',
-                trigger: 'change'
-              },
-              {
-                pattern: /^1[3-9]\d{9}$/,
-                message: '请输入合法的移动电话',
-                trigger: 'change'
-              }
-            ]
-          },
-          {
-            name: 'region',
-            // label: '活动区域',
-            type: 'select',
-            placeholder: '请输选择活动区域',
-            clearable: true,
-            options: [
-              { name: '区域一', value: 'shanghai' },
-              { name: '区域二', value: 'beijing' }
-            ],
-            rules: [
-              { required: true, message: '请输选择活动区域', trigger: 'change' }
-            ]
-          }
-        ]
-      },
-
-      {
-        type: 'divider'
-      },
-
-      {
         name: 'username',
         label: '用户名',
         type: 'text',
         placeholder: '请输入用户名',
         clearable: true,
-        autoFocus: true,
+        // autoFocus: true,
         rules: [{ required: true, message: '请输入用户名', trigger: 'change' }]
       },
       {
