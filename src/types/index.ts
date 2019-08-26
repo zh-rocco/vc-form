@@ -46,10 +46,10 @@ type _RendererValueType = null | boolean | number | string | PlainObject
 export type RendererValueType = _RendererValueType | _RendererValueType[]
 
 /** Renderer Options */
-export interface RendererOptions extends PlainObject {
+export interface RendererOptions<T = any> extends PlainObject {
   name: string
   description?: string
-  component: any
+  component: T
   value?: RendererValueType | ((options: Schema) => RendererValueType)
 }
 

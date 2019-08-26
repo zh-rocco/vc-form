@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import 'vue-tsx-support/enable-check'
+// import 'vue-tsx-support/options/allow-unknown-props'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // import iView from 'iview'
