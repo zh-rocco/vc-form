@@ -8,6 +8,8 @@ import { getStyle } from '@/element/utils'
 import { Button } from 'element-ui'
 import { Schema, RendererOptions, FormAction } from '@/types'
 
+let _currentRenderer: any
+
 export default tsx.component({
   name: 'Renderer',
 
@@ -32,28 +34,39 @@ export default tsx.component({
   },
 
   methods: {
-    handleMoveStart({ oldIndex }: any) {
-      console.log('start', oldIndex)
-    },
     handleMoveEnd(evt: any) {
-      console.log('end', evt)
-    },
-    handleMove() {
-      return true
+      const { oldIndex, newIndex } = evt
+      console.log('end', oldIndex, newIndex)
+      const { controls } = this.formOpts
+
+      if (oldIndex < newIndex) {
+        controls.splice(newIndex + 1, 0, controls[oldIndex])
+        controls.splice(oldIndex, 1)
+      } else {
+        controls.splice(newIndex, 0, controls.splice(oldIndex, 1)[0])
+      }
     },
     handleChange(evt: any) {
       if (evt.added) {
         const { newIndex: idx, element: renderer } = evt.added
         console.log('change:', idx, { ...renderer })
-
-        switch (renderer.type) {
-          case 'form-action':
-            this.addAction(renderer, idx)
-            break
-          default:
-            this.addRenderer(renderer, idx)
-        }
+        _currentRenderer = renderer
       }
+    },
+    handleAdd(evt: any) {
+      const { oldIndex, newIndex } = evt
+      console.log('add:', oldIndex, newIndex, { ..._currentRenderer })
+      if (!_currentRenderer) return
+
+      switch (_currentRenderer.type) {
+        case 'form-action':
+          this.addAction(_currentRenderer, newIndex)
+          break
+        default:
+          this.addRenderer(_currentRenderer, newIndex)
+      }
+
+      _currentRenderer = null
     },
     createRenderer(renderer: RendererOptions): Schema {
       const { name, description } = renderer
@@ -66,10 +79,12 @@ export default tsx.component({
       }
     },
     addRenderer(renderer: RendererOptions, idx = 0) {
+      console.log('add renderer:', { ...renderer }, idx)
       const formControls = this.formOpts.controls
       formControls.splice(idx, 0, this.createRenderer(renderer))
     },
     addAction({ name, description }: RendererOptions, idx = 0) {
+      console.log('add action:', { name, description }, idx)
       const formActions = this.formOpts.actions
       formActions.splice(idx, 0, { type: name, label: description })
     },
@@ -126,6 +141,7 @@ export default tsx.component({
   },
 
   render() {
+    console.log('render')
     const draggableOptions = {
       group: { name: 'fields' }
     }
@@ -137,10 +153,9 @@ export default tsx.component({
           tag="div"
           vModel={this.renderers}
           {...{ attrs: { ...draggableOptions } }}
-          onStart={this.handleMoveStart}
           onEnd={this.handleMoveEnd}
-          onMove={this.handleMove}
           onChange={this.handleChange}
+          onAdd={this.handleAdd}
         >
           {this.renderFormFields(this.formOpts.controls)}
           {this.renderFormActions(this.formOpts.actions)}
