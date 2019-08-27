@@ -20,6 +20,7 @@ export default tsx.component({
       formOpts: {
         type: 'form',
         size: 'mini',
+        labelWidth: '100px',
         // style: {
         //   width: '460px'
         // },
@@ -82,6 +83,7 @@ export default tsx.component({
 
       return (
         <FormField.component
+          class="view-disabled"
           options={schema}
         >
           <Tag
@@ -102,6 +104,7 @@ export default tsx.component({
 
       return (
         <Tag
+          view-disabled
           options={action}
           {...{ attrs: { style: getStyle(style) } }}
         >
@@ -124,9 +127,7 @@ export default tsx.component({
 
   render() {
     const draggableOptions = {
-      group: { name: 'people' },
-      ghostClass: 'ghost',
-      animation: 200
+      group: { name: 'fields' }
     }
 
     return (

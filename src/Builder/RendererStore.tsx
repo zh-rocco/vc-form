@@ -43,32 +43,34 @@ export default tsx.component({
   },
 
   render() {
-    const draggableOptions = {
-      group: { name: 'people', pull: 'clone', put: false },
-      sort: false,
-      ghostClass: 'ghost'
-    }
-
     return (
-      <div>
+      <dl class="renderer-store">
+        <dt class="title">
+          <h5>表单项</h5>
+        </dt>
         <Draggable
-          class="renderer-store"
-          tag="div"
-          {...{ attrs: { ...draggableOptions } }}
+          class="goods"
+          tag="dd"
+          group={{ name: 'fields', pull: 'clone', put: false }}
+          sort={false}
           list={renderers}
         >
           {this.renderTags(renderers)}
         </Draggable>
 
+        <dt class="title">
+          <h5>表单操作</h5>
+        </dt>
         <Draggable
-          class="renderer-store"
-          tag="div"
-          {...{ attrs: { ...draggableOptions } }}
+          class="goods"
+          tag="dd"
+          group={{ name: 'actions', pull: 'clone', put: false }}
+          sort={false}
           list={actions}
         >
           {this.renderTags(actions)}
         </Draggable>
-      </div>
+      </dl>
     )
   }
 })

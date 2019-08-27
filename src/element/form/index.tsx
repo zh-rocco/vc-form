@@ -97,12 +97,10 @@ class FormRenderer extends Vue {
   renderFormContent() {
     return this.$slots.default
       ? this.$slots.default
-      : (
-        <div>
-          {this.renderFormFields(this.options.controls)}
-          {this.renderFormActions(this.options.actions)}
-        </div>
-      )
+      : [
+        this.renderFormFields(this.options.controls),
+        this.renderFormActions(this.options.actions)
+      ]
   }
 
   validateForm() {
