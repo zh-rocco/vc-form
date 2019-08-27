@@ -1,11 +1,11 @@
 import { get, set } from 'lodash'
 import { Component, Prop, Inject, Vue, Watch } from 'vue-property-decorator'
 import { evalExpression } from '@/element/utils'
-import { FormFieldProps } from '@/types'
+import { FormFieldProps, PlainObject } from '@/types'
 
 @Component
 export default class ConnectMixin extends Vue {
-  @Inject({ default() { return {} } }) readonly formModel!: any
+  @Inject({ default() { return {} } }) readonly formModel!: PlainObject
   @Inject({ default() { return {} } }) readonly formIns!: any
 
   @Prop({ default: null }) readonly value!: any
@@ -85,7 +85,7 @@ export default class ConnectMixin extends Vue {
   private _autoFocus() {
     if (!this.options.autoFocus) return
 
-    console.log('[autoFocus]:', this.options.name)
+    // console.log('[autoFocus]:', this.options.name)
 
     const $input = this.$el.querySelector('input')
 

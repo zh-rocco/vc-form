@@ -8,12 +8,12 @@ class SubmitAction extends ConnectMixin {
     const { validateForm, model } = this.formIns
     try {
       await validateForm()
-      console.log(JSON.stringify(model))
+      // console.log(JSON.stringify(model))
     } catch { }
   }
 
   render() {
-    console.log('render action:', this.options.type)
+    // console.log('render action:', this.options.type)
     const { placeholder, clearable } = this.options
 
     return (
@@ -28,6 +28,7 @@ class SubmitAction extends ConnectMixin {
 }
 
 const options: RendererOptions = {
+  type: 'form-action',
   name: 'submit',
   description: '表单提交',
   component: SubmitAction

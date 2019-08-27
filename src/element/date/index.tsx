@@ -5,7 +5,7 @@ import { RendererOptions } from '@/types'
 @Component
 class DateControl extends ConnectMixin {
   render() {
-    console.log('render date:', this.options.name)
+    // console.log('render date:', this.options.name)
     const { placeholder, clearable } = this.options
 
     return (

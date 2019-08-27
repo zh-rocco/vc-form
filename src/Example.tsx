@@ -27,7 +27,10 @@ export default class Renderer extends Vue {
         min: 0,
         inline: true,
         value: [
-          { name: '123', telephone: '13312341234' }
+          // { name: '123', telephone: '13312341234' },
+          // { name: '456', telephone: '13312341234' },
+          // { name: '789', telephone: '13312341234' },
+          // { name: '000', telephone: '13312341234' }
         ],
         controls: [
           {

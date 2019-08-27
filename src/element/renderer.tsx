@@ -30,7 +30,7 @@ export default tsx.componentFactory.create({
   },
 
   render(): VNode {
-    console.log('*', 'Tag', this.options.type)
+    // // console.log('*', 'Tag', this.options.type)
 
     return this.renderChild(this.options)
   }

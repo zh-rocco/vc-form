@@ -5,7 +5,7 @@ import { RendererOptions } from '@/types'
 @Component
 class TextControl extends ConnectMixin {
   render() {
-    console.log('render text:', this.options.name)
+    // console.log('render text:', this.options.name)
     const { placeholder, clearable } = this.options
 
     return (

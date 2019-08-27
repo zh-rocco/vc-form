@@ -1,10 +1,10 @@
-import { cloneDeep, pickBy } from 'lodash'
+import { cloneDeep, pickBy, get } from 'lodash'
 import { Component } from 'vue-property-decorator'
 import Renderer from '@/element/renderer'
 import FormField from '@/element/form-field'
 import { typeConductionFunction } from '../utils'
 import ConnectMixin from '../connect'
-import { RendererOptions } from '@/types'
+import { RendererOptions, PlainObject } from '@/types'
 
 // 生成随机字符串 (length <= 10)
 function genRandomString(length = 10) {
@@ -16,6 +16,18 @@ function genRandomString(length = 10) {
 @Component
 class ComboControl extends ConnectMixin {
   private keys: string[] = []
+
+  public get localValue() {
+    const value = get(this.formModel, this.prop) as PlainObject[]
+
+    value.forEach(v => {
+      if (!v.__key__) {
+        v.__key__ = genRandomString()
+      }
+    })
+
+    return value
+  }
 
   private get controls() {
     return this.options.controls || []
@@ -92,25 +104,21 @@ class ComboControl extends ConnectMixin {
 
   // 生成 combo
   private createCombo() {
-    return Array.from({ length: this.length }).map((item, index) => {
+    return this.localValue.map((item, index) => {
       return (
         <div
           class="crm-combo-item"
-          key={this.keys[index]}
+          key={item.__key__}
         >
           {this.createComboItem(index)}
 
-          <FormField.component
-            options={{ type: 'button', name: 'delete' }}
+          <el-button
+            type="text"
+            disabled={this.length <= this.min}
+            onClick={() => this.remove(index)}
           >
-            <el-button
-              type="text"
-              disabled={this.length <= this.min}
-              onClick={() => this.remove(index)}
-            >
-              删除
-            </el-button>
-          </FormField.component>
+            删除
+          </el-button>
         </div>
       )
     })
@@ -129,7 +137,7 @@ class ComboControl extends ConnectMixin {
       return this.initDefaultValue()
     }
 
-    console.log('render combo driver:', this.options.name)
+    // console.log('render combo driver:', this.options.name)
 
     const className = this.inline ? 'crm-combo crm-combo--inline inline' : 'crm-combo'
 

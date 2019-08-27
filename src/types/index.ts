@@ -5,7 +5,7 @@ export interface PlainObject {
   [propsName: string]: any
 }
 
-export type FormActionType = 'submit' | 'reset' | 'back'
+export type FormActionType = 'submit' | 'reset' | 'back' | string
 
 export interface FormAction extends PlainObject {
   type: FormActionType

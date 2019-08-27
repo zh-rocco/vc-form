@@ -5,7 +5,7 @@ import { RendererOptions } from '@/types'
 @Component
 class SwitchControl extends ConnectMixin {
   render() {
-    console.log('render switch:', this.options.name)
+    // console.log('render switch:', this.options.name)
     const { placeholder, clearable, disabled } = this.options
 
     return (

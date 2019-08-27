@@ -3,9 +3,9 @@ import { isFunction, isArray } from 'lodash'
 import { PlainObject, Schema, RendererOptions } from '@/types'
 
 export const OptionsControl = (config: PlainObject) => {
-  console.log('OptionsControl', config)
+  // console.log('OptionsControl', config)
   return function (component: Component): any {
-    console.log('OptionsControl', { ...config, component })
+    // console.log('OptionsControl', { ...config, component })
     return { ...config, component }
   }
 }

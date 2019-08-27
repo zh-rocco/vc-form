@@ -17,7 +17,7 @@ class CheckboxControl extends ConnectMixin {
   }
 
   render() {
-    console.log('render checkbox:', this.options.name)
+    // console.log('render checkbox:', this.options.name)
     const { placeholder, clearable, options } = this.options
 
     if (!Array.isArray(options)) return

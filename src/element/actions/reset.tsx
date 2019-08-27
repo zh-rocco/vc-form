@@ -10,7 +10,7 @@ class ResetAction extends ConnectMixin {
   }
 
   render() {
-    console.log('render action:', this.options.type)
+    // console.log('render action:', this.options.type)
     const { placeholder, clearable } = this.options
 
     return (
@@ -25,6 +25,7 @@ class ResetAction extends ConnectMixin {
 }
 
 const options: RendererOptions = {
+  type: 'form-action',
   name: 'reset',
   description: '表单重置',
   component: ResetAction

@@ -7,10 +7,10 @@ import { PlainObject, Schema, FormAction } from '@/types'
 
 import { Button } from 'element-ui'
 
-console.log(Button)
+// // console.log(Button)
 
-console.log(rendererStore.getAllComponents())
-// console.log(directiveStore.getAllDirectives())
+// // console.log(rendererStore.getAllComponents())
+// // console.log(directiveStore.getAllDirectives())
 
 @Component
 class FormRenderer extends Vue {
@@ -42,7 +42,7 @@ class FormRenderer extends Vue {
     })
   }
 
-  renderFormItem(schema: Schema) {
+  renderFormField(schema: Schema) {
     const { type, label, name, rules, controls, style } = schema
     const Tag = rendererStore.getRenderer(type) || type
     const hasChildren = Array.isArray(controls) && controls.length
@@ -58,14 +58,14 @@ class FormRenderer extends Vue {
           options={schema}
           {...{ attrs: { style: getStyle(style) } }}
         >
-          {hasChildren ? this.renderFormItems(controls) : null}
+          {hasChildren ? this.renderFormFields(controls) : null}
         </Tag>
       </FormField.component>
     )
   }
 
-  renderFormItems(schemas: Schema[] = []) {
-    return schemas.map(schema => this.renderFormItem(schema))
+  renderFormFields(schemas: Schema[] = []) {
+    return schemas.map(schema => this.renderFormField(schema))
   }
 
   renderFormAction(action: FormAction) {
@@ -83,6 +83,8 @@ class FormRenderer extends Vue {
   }
 
   renderFormActions(actions: FormAction[] = []) {
+    if (!actions.length) return
+
     return (
       <FormField.component
         options={{ type: 'buttons', name: 'form-actions' }}
@@ -90,6 +92,17 @@ class FormRenderer extends Vue {
         {actions.map(action => this.renderFormAction(action))}
       </FormField.component>
     )
+  }
+
+  renderFormContent() {
+    return this.$slots.default
+      ? this.$slots.default
+      : (
+        <div>
+          {this.renderFormFields(this.options.controls)}
+          {this.renderFormActions(this.options.actions)}
+        </div>
+      )
   }
 
   validateForm() {
@@ -112,7 +125,7 @@ class FormRenderer extends Vue {
   }
 
   render() {
-    console.log('render form')
+    // console.log('render form')
 
     return (
       <el-form
@@ -124,8 +137,7 @@ class FormRenderer extends Vue {
         props={{ model: this.model }}
         attrs={{ ...this.options, style: getStyle(this.options.style) }}
       >
-        {this.renderFormItems(this.options.controls)}
-        {this.renderFormActions(this.options.actions)}
+        {this.renderFormContent()}
       </el-form>
     )
   }

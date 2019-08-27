@@ -9,7 +9,7 @@ const SelectDriver: any = Vue.extend(_SelectDriver)
 @Component
 class SelectControl extends ConnectMixin {
   render() {
-    console.log('render select:', this.options.name)
+    // console.log('render select:', this.options.name)
     const { placeholder, clearable, options = [] } = this.options
 
     return (

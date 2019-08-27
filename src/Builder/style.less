@@ -1,0 +1,59 @@
+.form-builder {
+  height: calc(100vh - 80px);
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: inline-flex;
+  }
+
+  .el-main {
+    padding: 0;
+    border: 1px dashed #999;
+  }
+
+  .builder-left,
+  .builder-right {
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow-y: auto;
+  }
+
+  .renderer-store {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .renderer-item {
+    display: inline-flex;
+
+    .el-tag {
+      width: 100px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+  }
+
+  .renderer-exhibition {
+    height: 100%;
+
+    .ghost {
+      width: 100%;
+      height: 0;
+      padding: 0;
+      border: 2px solid #f56c6c;
+      font-size: 0;
+      outline-width: 0;
+      overflow: hidden;
+    }
+  }
+
+  .draggable-target {
+    min-height: 100%;
+  }
+}

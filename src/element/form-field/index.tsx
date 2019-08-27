@@ -32,7 +32,7 @@ class FormField extends ConnectMixin {
   }
 
   render() {
-    console.log('render form field:', this.options.type, this.options.name)
+    // console.log('render form field:', this.options.type, this.options.name)
 
     return this.isVisible ? this.renderFormField() : undefined
   }

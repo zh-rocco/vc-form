@@ -29,9 +29,9 @@ import { RendererOptions } from '@/types'
 
 const StaticControl = tsx.componentFactory.mixin(ConnectMixin).create({
   name: 'StaticControl',
-  mixins: [ConnectMixin],
+
   render() {
-    console.log('render static:', this.options.name)
+    // console.log('render static:', this.options.name)
 
     return (
       <div>

@@ -5,11 +5,11 @@ import { RendererOptions } from '@/types'
 @Component
 class BackAction extends ConnectMixin {
   private back() {
-    console.log('click back button.')
+    // console.log('click back button.')
   }
 
   render() {
-    console.log('render action:', this.options.type)
+    // console.log('render action:', this.options.type)
     const { placeholder, clearable } = this.options
 
     return (
@@ -23,6 +23,7 @@ class BackAction extends ConnectMixin {
 }
 
 const options: RendererOptions = {
+  type: 'form-action',
   name: 'back',
   description: '表单返回',
   component: BackAction

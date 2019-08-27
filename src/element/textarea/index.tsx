@@ -5,7 +5,7 @@ import { RendererOptions } from '@/types'
 @Component
 class TextareaControl extends ConnectMixin {
   render() {
-    console.log('render textarea:', this.options.name)
+    // console.log('render textarea:', this.options.name)
     const { placeholder, clearable } = this.options
 
     return (
@@ -22,7 +22,7 @@ class TextareaControl extends ConnectMixin {
 
 const options: RendererOptions = {
   name: 'textarea',
-  description: '文本框',
+  description: '文本域',
   component: TextareaControl
 }
 

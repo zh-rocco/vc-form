@@ -5,7 +5,7 @@ import { RendererOptions } from '@/types'
 @Component
 class TimeControl extends ConnectMixin {
   render() {
-    console.log('render time:', this.options.name)
+    // console.log('render time:', this.options.name)
     const { placeholder, clearable } = this.options
 
     return (

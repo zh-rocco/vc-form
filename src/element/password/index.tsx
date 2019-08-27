@@ -5,7 +5,7 @@ import { RendererOptions } from '@/types'
 @Component
 class PasswordControl extends ConnectMixin {
   render() {
-    console.log('render password:', this.options.name)
+    // console.log('render password:', this.options.name)
     const { placeholder, clearable } = this.options
 
     return (

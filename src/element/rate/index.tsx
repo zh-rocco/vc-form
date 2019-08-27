@@ -5,7 +5,7 @@ import { RendererOptions } from '@/types'
 @Component
 class RateControl extends ConnectMixin {
   render() {
-    console.log('render rate:', this.options.name)
+    // console.log('render rate:', this.options.name)
     const { placeholder, clearable } = this.options
 
     return (
@@ -16,8 +16,8 @@ class RateControl extends ConnectMixin {
   }
 
   // mounted() {
-  //   console.log(this.formModel)
-  //   console.log(this.formIns)
+  //   // console.log(this.formModel)
+  //   // console.log(this.formIns)
   // }
 }
 

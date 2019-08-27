@@ -5,7 +5,7 @@ import { RendererOptions } from '@/types'
 @Component
 class SliderControl extends ConnectMixin {
   render() {
-    console.log('render slider:', this.options.name)
+    // console.log('render slider:', this.options.name)
     const { placeholder, clearable } = this.options
 
     return (

@@ -17,7 +17,7 @@ class RadioControl extends ConnectMixin {
   }
 
   render() {
-    console.log('render radio:', this.options.name)
+    // console.log('render radio:', this.options.name)
     const { placeholder, clearable, options } = this.options
 
     return (

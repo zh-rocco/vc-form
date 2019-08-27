@@ -21,6 +21,14 @@ export default class RendererStore {
     this.store[options.name] = options
   }
 
+  public getAllFields() {
+    return this.store
+  }
+
+  public getAllActions() {
+    return this.actionStore
+  }
+
   public get(type: string) {
     return this.store[type]
   }

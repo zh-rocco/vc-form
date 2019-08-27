@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/renderer">Renderer</router-link>
+      <router-link to="/example">Example</router-link>
       <span class="divider">|</span>
       <router-link to="/builder">Builder</router-link>
     </div>
@@ -15,7 +15,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component
 export default class App extends Vue {
   mounted() {
-    console.log('App', this)
+    // console.log('App', this)
   }
 }
 </script>

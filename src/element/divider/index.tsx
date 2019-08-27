@@ -7,7 +7,7 @@ import './style.less'
 @Component
 class DividerControl extends ConnectMixin {
   render() {
-    console.log('render divider')
+    // console.log('render divider')
 
     return (
       <hr />
