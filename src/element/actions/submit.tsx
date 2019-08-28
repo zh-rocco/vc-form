@@ -8,7 +8,7 @@ class SubmitAction extends ConnectMixin {
     const { validateForm, model } = this.formIns
     try {
       await validateForm()
-      // console.log(JSON.stringify(model))
+      console.log('form model:', JSON.stringify(model))
     } catch { }
   }
 

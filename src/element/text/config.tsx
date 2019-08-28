@@ -1,17 +1,15 @@
 // import Vue, { VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
 import FormRenderer from '@/element/form'
-import bus from './bus'
-import { Schema } from '@/types'
 
 export default tsx.componentFactory.create({
-  name: 'RendererConfig',
+  name: 'StaticControlConfig',
 
   components: { FormRenderer },
 
   data() {
     return {
-      current: {} as Schema,
+      model: {},
       schema: {
         type: 'form',
         size: 'mini',
@@ -34,7 +32,7 @@ export default tsx.componentFactory.create({
           },
 
           {
-            name: 'value',
+            name: 'defaultValue',
             label: '默认值',
             type: 'text',
             clearable: true
@@ -52,25 +50,11 @@ export default tsx.componentFactory.create({
     }
   },
 
-  methods: {
-  },
-
   render() {
-    // console.log('render static config:', this.current.type, this.current.name)
-    console.log('render static config:')
+    console.log('render static config')
 
     return (
-      <form-renderer
-        value={this.current}
-        options={this.schema}
-      ></form-renderer>
+      <form-renderer value={this.model} options={this.schema}></form-renderer>
     )
-  },
-
-  created() {
-    bus.$on('select', (payload: Schema) => {
-      this.current = payload
-      // this.current.label = this.current.label += '*'
-    })
   }
 })

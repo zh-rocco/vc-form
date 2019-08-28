@@ -1,12 +1,12 @@
 import { get, set } from 'lodash'
-import { Component, Prop, Inject, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Inject, InjectReactive, Vue, Watch } from 'vue-property-decorator'
 import { evalExpression } from '@/element/utils'
 import { FormFieldProps, PlainObject } from '@/types'
 
 @Component
 export default class ConnectMixin extends Vue {
-  @Inject({ default() { return {} } }) readonly formModel!: PlainObject
-  @Inject({ default() { return {} } }) readonly formIns!: any
+  @InjectReactive({ default() { return {} } }) readonly formModel!: PlainObject
+  @InjectReactive({ default() { return {} } }) readonly formIns!: any
 
   @Prop({ default: null }) readonly value!: any
   @Prop({ type: Object, default: () => ({}) }) readonly options!: FormFieldProps

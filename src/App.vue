@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/example">Example</router-link>
+      <router-link to="/example">Full Example</router-link>
       <span class="divider">|</span>
-      <router-link to="/builder">Builder</router-link>
+      <router-link to="/builder">Form Builder</router-link>
     </div>
     <router-view />
   </div>
@@ -27,8 +27,8 @@ body {
 }
 
 #nav {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   text-align: center;
 
   .divider {

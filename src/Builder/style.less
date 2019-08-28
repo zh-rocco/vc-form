@@ -12,8 +12,13 @@
     display: inline-flex;
   }
 
+  h5 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
   .el-main {
-    border: 1px dashed #999;
+    // outline: 1px dashed #999;
   }
 
   .builder-left,
@@ -23,7 +28,12 @@
     overflow-y: auto;
   }
 
+  .builder-right {
+  }
+
   .renderer-store {
+    margin-top: -1rem;
+
     .goods {
       display: flex;
       flex-wrap: wrap;
@@ -38,7 +48,7 @@
     .el-tag {
       width: 100px;
       margin-bottom: 10px;
-      cursor: pointer;
+      cursor: move;
     }
   }
 
@@ -60,18 +70,40 @@
     min-height: 100%;
   }
 
-  .view-disabled {
+  .draggable-item:not(.sortable-ghost) {
     position: relative;
-    cursor: pointer;
 
-    &::after {
-      content: "";
+    &.active,
+    &:hover {
+      outline: 1px dashed #67bbe2;
+
+      .action-wrap {
+        display: inline-flex;
+      }
+    }
+
+    .action-wrap {
+      display: none;
       position: absolute;
-      display: block;
-      top: 0;
-      bottom: 0;
-      left: 0;
       right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2001;
+    }
+
+    .sort-btn,
+    .del-btn {
+      margin-right: 10px;
+      color: #f56c6c;
+      font-weight: bold;
+    }
+
+    .sort-btn {
+      cursor: move;
+    }
+
+    .del-btn {
+      cursor: pointer;
     }
   }
 }

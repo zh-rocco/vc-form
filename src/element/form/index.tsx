@@ -1,8 +1,8 @@
-import { Component, Prop, Provide, Watch, Vue } from 'vue-property-decorator'
+import { Component, Prop, Provide, ProvideReactive, Watch, Vue } from 'vue-property-decorator'
 import { rendererStore } from '@/lib/renderers'
 // import { directiveStore } from '@/lib/directives'
 import FormField from '@/element/form-field'
-import { walk, getStyle } from '../utils'
+import { walk, getStyle, isObject } from '../utils'
 import { PlainObject, Schema, FormAction } from '@/types'
 
 import { Button } from 'element-ui'
@@ -18,10 +18,22 @@ class FormRenderer extends Vue {
     form: HTMLFormElement
   }
 
+  @Prop({ type: Object, default: () => ({}) }) readonly value!: PlainObject
   @Prop({ type: Object, default: () => ({}) }) readonly options!: Schema
 
-  @Provide('formModel') readonly model: PlainObject = {}
-  @Provide() readonly formIns = this
+  @ProvideReactive('formModel') get model() {
+    if (!isObject(this.value)) {
+      throw new TypeError(`Form Renderer: expect value prop [Object], but got ${this.value}`)
+    }
+    return this.value
+  }
+  @ProvideReactive() readonly formIns = this
+
+  @Watch('value', { deep: true })
+  onValueChange(nv: PlainObject, ov: PlainObject) {
+    console.log('model change:', nv === ov)
+    // this.$forceUpdate()
+  }
 
   @Watch('options', { deep: true, immediate: true })
   onOptionsChange(nv: Schema) {
@@ -129,9 +141,6 @@ class FormRenderer extends Vue {
       <el-form
         ref="form"
         class="form-renderer"
-        label-suffix=":"
-        label-width="120px"
-        label-position="right"
         props={{ model: this.model }}
         attrs={{ ...this.options, style: getStyle(this.options.style) }}
       >

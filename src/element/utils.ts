@@ -62,3 +62,5 @@ export const evalExpression = (expression: string, data?: PlainObject): boolean 
 export const typeConductionFunction = <T>(payload: T): T => {
   return payload
 }
+
+export const isObject = (input: any) => Object.prototype.toString.call(input) === '[object Object]'

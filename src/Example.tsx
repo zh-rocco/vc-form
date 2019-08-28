@@ -14,6 +14,8 @@ export default class Renderer extends Vue {
       'user-select': 'none'
     },
     size: 'mini',
+    labelWidth: '120px',
+    labelPosition: 'right',
     controls: [
       {
         type: 'divider'

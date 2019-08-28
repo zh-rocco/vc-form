@@ -64,7 +64,7 @@ export default tsx.component({
         <Draggable
           class="goods"
           tag="dd"
-          group={{ name: 'actions', pull: 'clone', put: false }}
+          group={{ name: 'fields', pull: 'clone', put: false }}
           sort={false}
           list={actions}
         >

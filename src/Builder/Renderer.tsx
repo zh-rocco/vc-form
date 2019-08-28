@@ -7,11 +7,14 @@ import FormField from '@/element/form-field'
 import { getStyle } from '@/element/utils'
 import { Button } from 'element-ui'
 import { Schema, RendererOptions, FormAction } from '@/types'
+import bus from './bus'
 
 let _currentRenderer: any
 
 export default tsx.component({
   name: 'Renderer',
+
+  autoStorage: ['model', 'formOpts'],
 
   components: {
     FormRenderer
@@ -19,21 +22,25 @@ export default tsx.component({
 
   data() {
     return {
+      model: {},
       formOpts: {
         type: 'form',
         size: 'mini',
         labelWidth: '100px',
-        // style: {
-        //   width: '460px'
-        // },
         controls: [] as Schema[],
         actions: [] as FormAction[]
       },
-      renderers: [] as RendererOptions[]
+      renderers: [] as RendererOptions[],
+      current: null as any
     }
   },
 
   methods: {
+    handleSelect(idx: number) {
+      console.log('select:', idx)
+      this.current = this.formOpts.controls[idx]
+      bus.$emit('select', this.current)
+    },
     handleMoveEnd(evt: any) {
       const { oldIndex, newIndex } = evt
       console.log('end', oldIndex, newIndex)
@@ -70,13 +77,15 @@ export default tsx.component({
     },
     createRenderer(renderer: RendererOptions): Schema {
       const { name, description } = renderer
-      return {
+      const _renderer = {
         name: name,
         label: description,
         type: name,
         placeholder: description,
         clearable: true
       }
+      this.current = _renderer
+      return _renderer
     },
     addRenderer(renderer: RendererOptions, idx = 0) {
       console.log('add renderer:', { ...renderer }, idx)
@@ -88,7 +97,7 @@ export default tsx.component({
       const formActions = this.formOpts.actions
       formActions.splice(idx, 0, { type: name, label: description })
     },
-    renderFormField(schema: Schema) {
+    renderFormField(schema: Schema, idx: number) {
       const { type, label, name, rules, controls, style } = schema
       const Tag = rendererStore.getRenderer(type) || type
       const hasChildren = Array.isArray(controls) && controls.length
@@ -98,8 +107,9 @@ export default tsx.component({
 
       return (
         <FormField.component
-          class="view-disabled"
+          class={{ 'draggable-item': true, active: schema === this.current }}
           options={schema}
+          nativeOnClick={() => void this.handleSelect(idx)}
         >
           <Tag
             options={schema}
@@ -107,11 +117,19 @@ export default tsx.component({
           >
             {hasChildren ? this.renderFormFields(controls) : null}
           </Tag>
+
+          <span
+            class="action-wrap"
+          // onClick={(e) => void (e.stopPropagation())}
+          >
+            <i class="el-icon-rank sort-btn" />
+            <i class="el-icon-delete del-btn" onClick={() => void this.handleDelete(idx)} />
+          </span>
         </FormField.component>
       )
     },
     renderFormFields(schemas: Schema[] = []) {
-      return schemas.map(schema => this.renderFormField(schema))
+      return schemas.map((schema, idx) => this.renderFormField(schema, idx))
     },
     renderFormAction(action: FormAction) {
       const { type, label, style } = action
@@ -132,22 +150,35 @@ export default tsx.component({
 
       return (
         <FormField.component
+          class="draggable-item"
           options={{ type: 'buttons', name: 'form-actions' }}
         >
-          {actions.map(action => this.renderFormAction(action))}
+          {actions.map((action) => this.renderFormAction(action))}
+
+          <span class="action-wrap">
+            <i class="el-icon-delete del-btn" onClick={() => void (this.formOpts.actions = [])} />
+          </span>
         </FormField.component>
       )
+    },
+    handleDelete(idx: number) {
+      this.formOpts.controls.splice(idx, 1)
     }
   },
 
   render() {
     console.log('render')
     const draggableOptions = {
-      group: { name: 'fields' }
+      group: { name: 'fields' },
+      handle: '.sort-btn'
     }
 
     return (
-      <form-renderer class="renderer-exhibition" options={this.formOpts} >
+      <form-renderer
+        class="renderer-exhibition"
+        value={this.model}
+        options={this.formOpts}
+      >
         <Draggable
           class="draggable-target"
           tag="div"

@@ -1,6 +1,7 @@
 import * as tsx from 'vue-tsx-support'
 import RendererStore from './RendererStore'
 import Renderer from './Renderer'
+import Config from './Config'
 import './style.less'
 
 export default tsx.component({
@@ -20,7 +21,7 @@ export default tsx.component({
         </el-main>
 
         <el-aside class="builder-right" width="230px">
-          Right
+          <Config />
         </el-aside>
       </el-container>
     )
