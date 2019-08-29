@@ -65,7 +65,7 @@ export default tsx.componentFactory.create({
     }
   },
 
-  render() {
+  render(): VNode {
     // console.log('render static config:', this.current.type, this.current.name)
     console.log('render static config')
 
