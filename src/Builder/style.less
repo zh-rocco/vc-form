@@ -73,8 +73,17 @@
   .draggable-item:not(.sortable-ghost) {
     position: relative;
 
-    &.active,
-    &:hover {
+    &::after {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2000;
+    }
+
+    &.active {
       outline: 1px dashed #67bbe2;
 
       .action-wrap {

@@ -1,4 +1,4 @@
-// import Vue, { VNode } from 'vue'
+import { VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
 import FormRenderer from '@/element/form'
 import bus from './bus'
@@ -11,8 +11,10 @@ export default tsx.componentFactory.create({
 
   data() {
     return {
+      isShow: true,
       current: {} as Schema,
       schema: {
+        name: 'config-form',
         type: 'form',
         size: 'mini',
         labelPosition: 'top',
@@ -53,24 +55,34 @@ export default tsx.componentFactory.create({
   },
 
   methods: {
+    genConfigForm(): VNode {
+      return (
+        <form-renderer
+          value={this.current}
+          options={this.schema}
+        ></form-renderer>
+      )
+    }
   },
 
   render() {
     // console.log('render static config:', this.current.type, this.current.name)
-    console.log('render static config:')
+    console.log('render static config')
 
-    return (
-      <form-renderer
-        value={this.current}
-        options={this.schema}
-      ></form-renderer>
-    )
+    if (this.isShow) {
+      return (this.genConfigForm())
+    } else {
+      return (<div></div>)
+    }
   },
 
   created() {
     bus.$on('select', (payload: Schema) => {
       this.current = payload
-      // this.current.label = this.current.label += '*'
+      this.isShow = false
+      this.$nextTick(() => {
+        this.isShow = true
+      })
     })
   }
 })

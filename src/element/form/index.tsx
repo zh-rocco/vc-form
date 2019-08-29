@@ -32,7 +32,9 @@ class FormRenderer extends Vue {
   @Watch('value', { deep: true })
   onValueChange(nv: PlainObject, ov: PlainObject) {
     console.log('model change:', nv === ov)
-    // this.$forceUpdate()
+    if (nv !== ov) {
+      this.$forceUpdate()
+    }
   }
 
   @Watch('options', { deep: true, immediate: true })
@@ -135,7 +137,7 @@ class FormRenderer extends Vue {
   }
 
   render() {
-    // console.log('render form')
+    console.log('render form:', this.options.name)
 
     return (
       <el-form

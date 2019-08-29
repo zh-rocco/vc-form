@@ -24,6 +24,7 @@ export default tsx.component({
     return {
       model: {},
       formOpts: {
+        name: 'renderer-form',
         type: 'form',
         size: 'mini',
         labelWidth: '100px',
@@ -37,6 +38,7 @@ export default tsx.component({
 
   methods: {
     handleSelect(idx: number) {
+      if (this.current === this.formOpts.controls[idx]) return
       console.log('select:', idx)
       this.current = this.formOpts.controls[idx]
       bus.$emit('select', this.current)
