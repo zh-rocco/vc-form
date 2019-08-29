@@ -14,7 +14,7 @@ let _currentRenderer: any
 export default tsx.component({
   name: 'Renderer',
 
-  autoStorage: ['model', 'formOpts'],
+  autoStorage: ['formOpts'],
 
   components: {
     FormRenderer

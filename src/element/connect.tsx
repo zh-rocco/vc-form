@@ -5,8 +5,8 @@ import { FormFieldProps, PlainObject } from '@/types'
 
 @Component
 export default class ConnectMixin extends Vue {
-  @InjectReactive({ default() { return {} } }) readonly formModel!: PlainObject
-  @InjectReactive({ default() { return {} } }) readonly formIns!: any
+  @Inject({ default() { return {} } }) readonly formModel!: PlainObject
+  @Inject({ default() { return {} } }) readonly formIns!: any
 
   @Prop({ default: null }) readonly value!: any
   @Prop({ type: Object, default: () => ({}) }) readonly options!: FormFieldProps

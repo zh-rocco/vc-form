@@ -21,13 +21,13 @@ class FormRenderer extends Vue {
   @Prop({ type: Object, default: () => ({}) }) readonly value!: PlainObject
   @Prop({ type: Object, default: () => ({}) }) readonly options!: Schema
 
-  @ProvideReactive('formModel') get model() {
+  @Provide('formModel') get model() {
     if (!isObject(this.value)) {
       throw new TypeError(`Form Renderer: expect value prop [Object], but got ${this.value}`)
     }
     return this.value
   }
-  @ProvideReactive() readonly formIns = this
+  @Provide() readonly formIns = this
 
   @Watch('value', { deep: true })
   onValueChange(nv: PlainObject, ov: PlainObject) {
