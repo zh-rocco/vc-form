@@ -20,6 +20,7 @@ class FormRenderer extends Vue {
 
   @Prop({ type: Object, default: () => ({}) }) readonly value!: PlainObject
   @Prop({ type: Object, default: () => ({}) }) readonly options!: Schema
+  @Prop({ type: Boolean, default: true }) readonly reactiveOptions!: boolean
 
   @Provide('formModel') get model() {
     if (!isObject(this.value)) {
@@ -28,19 +29,22 @@ class FormRenderer extends Vue {
     return this.value
   }
   @Provide() readonly formIns = this
+  @Provide() get __reactiveInjection__() {
+    return {
+      formModel: this.model,
+      formIns: this
+    }
+  }
 
   @Watch('value', { deep: true })
   onValueChange(nv: PlainObject, ov: PlainObject) {
     console.log('model change:', nv === ov)
-    if (nv !== ov) {
-      this.$forceUpdate()
-    }
   }
 
   @Watch('options', { deep: true, immediate: true })
   onOptionsChange(nv: Schema) {
     if (nv) {
-      this.genFormModel(nv)
+      // this.genFormModel(nv)
     }
   }
 
@@ -149,6 +153,10 @@ class FormRenderer extends Vue {
         {this.renderFormContent()}
       </el-form>
     )
+  }
+
+  created() {
+    this.genFormModel(this.options)
   }
 }
 

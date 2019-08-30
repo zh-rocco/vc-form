@@ -5,11 +5,15 @@ import { RendererOptions } from '@/types'
 @Component
 class SubmitAction extends ConnectMixin {
   private async submit() {
-    const { validateForm, model } = this.formIns
+    console.log(this.__reactiveInjection__)
+    const { formIns, formIns: { $emit, validateForm, model } } = this.__reactiveInjection__
     try {
       await validateForm()
-      console.log('form model:', JSON.stringify(model))
-    } catch { }
+      const value = JSON.parse(JSON.stringify(model))
+      formIns.$emit('submit', value)
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
   render() {

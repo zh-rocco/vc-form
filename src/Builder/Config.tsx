@@ -1,8 +1,8 @@
 import { VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
 import FormRenderer from '@/element/form'
-import bus from './bus'
-import { Schema } from '@/types'
+import builderBus from './builder-bus'
+import { Schema, PlainObject } from '@/types'
 
 export default tsx.componentFactory.create({
   name: 'RendererConfig',
@@ -12,6 +12,7 @@ export default tsx.componentFactory.create({
   data() {
     return {
       isShow: true,
+      _current: {} as Schema,
       current: {} as Schema,
       schema: {
         name: 'config-form',
@@ -49,24 +50,36 @@ export default tsx.componentFactory.create({
             clearable: true
           }
         ],
-        actions: []
+        actions: [
+          {
+            type: 'submit',
+            label: '确定'
+          }
+        ]
       }
     }
   },
 
   methods: {
+    handleSubmit(value: PlainObject) {
+      console.log('submit', value)
+      builderBus.$emit('update', {
+        source: this._current,
+        value
+      })
+    },
     genConfigForm(): VNode {
       return (
         <form-renderer
           value={this.current}
           options={this.schema}
-        ></form-renderer>
+          onSubmit={this.handleSubmit}
+        />
       )
     }
   },
 
   render(): VNode {
-    // console.log('render static config:', this.current.type, this.current.name)
     console.log('render static config')
 
     if (this.isShow) {
@@ -77,8 +90,9 @@ export default tsx.componentFactory.create({
   },
 
   created() {
-    bus.$on('select', (payload: Schema) => {
-      this.current = payload
+    builderBus.$on('select', (payload: Schema) => {
+      this._current = payload
+      this.current = JSON.parse(JSON.stringify(payload))
       this.isShow = false
       this.$nextTick(() => {
         this.isShow = true

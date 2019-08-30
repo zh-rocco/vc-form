@@ -1,3 +1,4 @@
+import { VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
 import Draggable from 'vuedraggable'
 import FormRenderer from '@/element/form'
@@ -7,7 +8,7 @@ import FormField from '@/element/form-field'
 import { getStyle } from '@/element/utils'
 import { Button } from 'element-ui'
 import { Schema, RendererOptions, FormAction } from '@/types'
-import bus from './bus'
+import builderBus from './builder-bus'
 
 let _currentRenderer: any
 
@@ -22,6 +23,7 @@ export default tsx.component({
 
   data() {
     return {
+      isShow: true,
       model: {},
       formOpts: {
         name: 'renderer-form',
@@ -41,7 +43,7 @@ export default tsx.component({
       if (this.current === this.formOpts.controls[idx]) return
       console.log('select:', idx)
       this.current = this.formOpts.controls[idx]
-      bus.$emit('select', this.current)
+      builderBus.$emit('select', this.current)
     },
     handleMoveEnd(evt: any) {
       const { oldIndex, newIndex } = evt
@@ -165,17 +167,23 @@ export default tsx.component({
     },
     handleDelete(idx: number) {
       this.formOpts.controls.splice(idx, 1)
+    },
+    forceUpdate() {
+      this.isShow = false
+      this.$nextTick(() => {
+        this.isShow = true
+      })
     }
   },
 
-  render() {
+  render(): VNode {
     console.log('render')
     const draggableOptions = {
       group: { name: 'fields' },
       handle: '.sort-btn'
     }
 
-    return (
+    return this.isShow ? (
       <form-renderer
         class="renderer-exhibition"
         value={this.model}
@@ -194,6 +202,18 @@ export default tsx.component({
           {this.renderFormActions(this.formOpts.actions)}
         </Draggable>
       </form-renderer>
-    )
+    ) : (<div></div>)
+  },
+
+  created() {
+    builderBus.$on('update', ({ source, value }: any) => {
+      const { current } = this
+      console.log(current === source, this.current, source)
+      if (current === source) {
+        console.log('update controls')
+        Object.assign(current, value)
+        this.forceUpdate()
+      }
+    })
   }
 })
