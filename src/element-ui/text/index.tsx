@@ -1,5 +1,5 @@
 import * as tsx from 'vue-tsx-support'
-import ConnectMixin from '@/core/connect'
+import { ConnectMixin } from '@/core/connect'
 import { typeConductionFunction } from '@/core/utils'
 import { RendererOptions } from '@/types'
 

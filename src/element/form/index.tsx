@@ -65,7 +65,7 @@ class FormRenderer extends Vue {
     const Tag = rendererStore.getRenderer(type) || type
     const hasChildren = Array.isArray(controls) && controls.length
     const isRequired = controls && controls.some(({ rules }) => {
-      return rules && rules.some(({ required }) => required)
+      return !!(rules && rules.some(({ required }) => required))
     })
 
     return (

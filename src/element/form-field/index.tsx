@@ -13,7 +13,7 @@ class FormField extends ConnectMixin {
     const { label, name, rules, controls, style } = this.options
     const hasChildren = Array.isArray(controls) && controls.length
     const isRequired = controls && controls.some(({ rules }) => {
-      return rules && rules.some(({ required }) => required)
+      return !!(rules && rules.some(({ required }) => required))
     })
 
     return (
